@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JeevanCare – Empowering India with Intelligent Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #0e9c8a;
+  --teal-dark: #077a6a;
+  --teal-light: #d0f5ef;
+  --teal-glow: #0e9c8a33;
+  --navy: #0b2545;
+  --navy-mid: #163966;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --bg: #f0faf8;
+  --card: #ffffff;
+  --border: #c8ede8;
+  --text: #0b2545;
+  --text-mid: #3d6070;
+  --text-muted: #7a9aaa;
+  --shadow: 0 4px 24px rgba(14,156,138,.10);
+  --shadow-lg: 0 8px 40px rgba(14,156,138,.16);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font: 'Nunito', sans-serif;
+  --font-head: 'Sora', sans-serif;
+  --tricolor-top: #FF9933;
+  --tricolor-mid: #ffffff;
+  --tricolor-bot: #138808;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.app-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1a4a7a 100%);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+
+.logo-shield {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.brand-text { flex: 1; }
+.brand-name {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+.brand-tagline {
+  font-size: 0.72rem;
+  color: var(--amber);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-top: 2px;
+}
+
+.tricolor-strip {
+  height: 4px;
+  background: linear-gradient(to right, var(--tricolor-top) 33.3%, var(--tricolor-mid) 33.3%, var(--tricolor-mid) 66.6%, var(--tricolor-bot) 66.6%);
+  width: 100%;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.7);
+}
+.status-dot {
+  width: 7px; height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+
+/* LAYOUT */
+.app-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: calc(100vh - 74px);
+}
+
+/* CHAT PANEL */
+.chat-panel {
+  background: var(--card);
+  border-right: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 74px);
+  position: sticky;
+  top: 74px;
+}
+
+.chat-subheader {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  padding: 12px 18px;
+  color: #fff;
+}
+.chat-subheader .chat-title { font-size: 0.88rem; font-weight: 700; }
+.chat-subheader .chat-sub { font-size: 0.72rem; opacity: 0.85; }
+
+.onboarding-progress {
+  padding: 8px 16px 0;
+  background: #fff;
+}
+.progress-steps {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.step-dot {
+  flex: 1; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.step-dot.done { background: var(--teal); }
+.step-dot.active { background: var(--amber); }
+.step-label-bar {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.message { display: flex; gap: 8px; align-items: flex-end; max-width: 88%; animation: fadeUp 0.25s ease; }
+.message.bot { align-self: flex-start; }
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+.msg-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  font-weight: 700;
+}
+.message.user .msg-avatar { background: var(--navy); color: #fff; }
+
+.msg-bubble {
+  padding: 9px 13px;
+  border-radius: 16px 16px 16px 4px;
+  font-size: 0.83rem;
+  line-height: 1.6;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  max-width: 100%;
+}
+.message.user .msg-bubble {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+  border-radius: 16px 16px 4px 16px;
+}
+.msg-time {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+  padding: 0 4px;
+}
+
+.typing-dots { display: flex; gap: 4px; padding: 4px 0; }
+.typing-dots span {
+  width: 7px; height: 7px;
+  background: var(--teal);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* QUICK CHIPS */
+.quick-chips {
+  padding: 8px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  background: #fff;
+  color: var(--text-mid);
+  transition: all 0.2s;
+  font-family: var(--font);
+  font-weight: 600;
+}
+.chip:hover { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+
+/* CHAT INPUT */
+.chat-input-area {
+  padding: 12px 14px;
+  border-top: 1.5px solid var(--border);
+  background: #fff;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  font-size: 0.83rem;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--teal); background: #fff; }
+.send-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--teal);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.send-btn:hover { background: var(--teal-dark); transform: scale(1.05); }
+
+/* LANG SWITCHER */
+.lang-bar {
+  padding: 6px 14px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.lang-btn {
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  font-size: 0.68rem;
+  cursor: pointer;
+  background: #fff;
+  font-family: var(--font);
+  font-weight: 600;
+  color: var(--text-mid);
+  transition: all 0.2s;
+}
+.lang-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* RESULTS PANEL */
+.results-panel {
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg);
+}
+
+/* WELCOME STATE */
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  gap: 16px;
+}
+.welcome-shield { margin-bottom: 8px; }
+.welcome-title {
+  font-family: var(--font-head);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.welcome-sub { color: var(--text-mid); font-size: 0.88rem; max-width: 360px; line-height: 1.6; }
+.welcome-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+  max-width: 400px;
+}
+.welcome-feat {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 0.78rem;
+  color: var(--text-mid);
+  text-align: left;
+}
+.welcome-feat-icon { font-size: 1.3rem; margin-bottom: 4px; }
+.welcome-feat-title { font-weight: 700; color: var(--text); font-size: 0.82rem; }
+
+/* CARDS */
+.section-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-icon { font-size: 1.1rem; }
+
+/* URGENCY BANNER */
+.urgency-banner {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  border-left: 4px solid;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.urgency-emergency { background: #fef2f2; border-color: #dc2626; color: #991b1b; }
+.urgency-high { background: #fff7ed; border-color: #f97316; color: #9a3412; }
+.urgency-medium { background: #fefce8; border-color: var(--amber); color: #92400e; }
+.urgency-low { background: var(--success-light); border-color: var(--success); color: #14532d; }
+
+/* CONDITION CARD */
+.condition-header {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.condition-icon-box {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.condition-name {
+  font-family: var(--font-head);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.condition-proc {
+  font-size: 0.8rem;
+  color: var(--text-mid);
+  margin-top: 3px;
+}
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-right: 4px;
+  margin-top: 5px;
+}
+.tag-teal { background: var(--teal-light); color: var(--teal-dark); }
+.tag-amber { background: var(--amber-light); color: #92400e; }
+.tag-danger { background: var(--danger-light); color: #991b1b; }
+.tag-navy { background: #e0eaf7; color: var(--navy); }
+
+/* HOSPITAL CARDS */
+.hospital-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.hospital-card:hover { border-color: var(--teal); box-shadow: var(--shadow); transform: translateY(-1px); }
+.hospital-card.top-pick { border-color: var(--amber); }
+.top-pick-badge {
+  position: absolute;
+  top: -1px; right: 12px;
+  background: var(--amber);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 0 0 8px 8px;
+}
+.hosp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.hosp-name { font-weight: 800; font-size: 0.9rem; color: var(--navy); }
+.hosp-rating {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.75rem; font-weight: 700;
+  color: var(--amber);
+  flex-shrink: 0;
+}
+.hosp-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.hosp-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 10px;
+}
+.hosp-detail-item { font-size: 0.75rem; }
+.hosp-detail-label { color: var(--text-muted); font-size: 0.68rem; }
+.hosp-detail-val { font-weight: 700; color: var(--text); }
+.hosp-cost { color: var(--teal-dark); font-weight: 800; }
+.hosp-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.hosp-actions { display: flex; gap: 8px; margin-top: 10px; }
+.hosp-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  color: var(--text);
+  font-family: var(--font);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+}
+.hosp-btn:hover { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+.hosp-btn.primary { background: var(--teal); color: #fff; border-color: var(--teal); }
+.hosp-btn.primary:hover { background: var(--teal-dark); }
+
+/* CONTACT MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp 0.25s ease;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.modal-title { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--navy); }
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.contact-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--teal-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.contact-label { font-size: 0.72rem; color: var(--text-muted); }
+.contact-val { font-weight: 700; color: var(--navy); font-size: 0.88rem; }
+.contact-link { color: var(--teal-dark); text-decoration: none; font-weight: 700; font-size: 0.88rem; }
+.contact-link:hover { text-decoration: underline; }
+
+/* COST BREAKDOWN */
+.cost-breakdown {
+  display: grid;
+  gap: 6px;
+}
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  background: var(--bg);
+  border-radius: 8px;
+}
+.cost-label { color: var(--text-mid); }
+.cost-val { font-weight: 700; color: var(--teal-dark); }
+.cost-total {
+  border-top: 2px solid var(--border);
+  padding-top: 10px;
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.cost-total-val { color: var(--navy); }
+
+/* CONFIDENCE METER */
+.confidence-bar-track {
+  height: 10px;
+  background: var(--bg);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.confidence-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+.confidence-factors { display: grid; gap: 6px; margin-top: 10px; }
+.conf-factor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+.conf-factor-label { color: var(--text-mid); }
+.conf-factor-status { font-weight: 600; }
+
+/* TREATMENT JOURNEY */
+.journey-timeline { position: relative; padding-left: 30px; }
+.journey-timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--teal), var(--border));
+}
+.journey-step {
+  position: relative;
+  margin-bottom: 16px;
+}
+.journey-dot {
+  position: absolute;
+  left: -26px;
+  top: 4px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--teal);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: #fff;
+}
+.journey-day { font-size: 0.68rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+.journey-title { font-weight: 800; color: var(--navy); font-size: 0.85rem; margin: 2px 0; }
+.journey-activities { font-size: 0.75rem; color: var(--text-mid); }
+.journey-cost { font-size: 0.75rem; font-weight: 700; color: var(--teal-dark); margin-top: 3px; }
+
+/* INSURANCE SECTION */
+.insurance-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+.insurance-card:hover { border-color: var(--teal); box-shadow: var(--shadow); }
+.ins-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.ins-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.ins-govt { background: #e0eaf7; }
+.ins-private { background: var(--teal-light); }
+.ins-name { font-weight: 800; font-size: 0.88rem; color: var(--navy); }
+.ins-type { font-size: 0.68rem; text-transform: uppercase; font-weight: 700; }
+.ins-govt-tag { color: var(--navy); }
+.ins-private-tag { color: var(--teal-dark); }
+.ins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ins-detail { font-size: 0.73rem; }
+.ins-detail-label { color: var(--text-muted); font-size: 0.67rem; }
+.ins-detail-val { font-weight: 700; color: var(--text); }
+.ins-note { font-size: 0.75rem; color: var(--text-mid); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+.ins-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ins-btn:hover { background: var(--teal-dark); }
+
+/* INSURANCE WORKFLOW */
+.workflow-steps { display: flex; flex-direction: column; gap: 10px; }
+.workflow-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.workflow-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.workflow-text { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
+.workflow-text strong { color: var(--navy); }
+
+/* TABS */
+.tabs-bar {
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  padding: 6px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 8px;
+  border: none;
+  font-family: var(--font);
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: transparent;
+  transition: all 0.2s;
+}
+.tab-btn.active { background: #fff; color: var(--navy); box-shadow: var(--shadow); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* LOADING OVERLAY */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,37,69,0.7);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.loading-overlay.show { display: flex; }
+.loading-spinner {
+  width: 56px; height: 56px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; }
+.loading-sub { color: rgba(255,255,255,0.65); font-size: 0.78rem; }
+
+/* DISCLAIMER */
+.disclaimer {
+  padding: 10px 14px;
+  background: #fff8f0;
+  border-left: 4px solid var(--amber);
+  border-radius: 0 10px 10px 0;
+  font-size: 0.75rem;
+  color: #92400e;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* FAIRNESS METER */
+.fairness-bar {
+  position: relative;
+  height: 12px;
+  background: linear-gradient(to right, #16a34a, #eab308, #dc2626);
+  border-radius: 6px;
+  margin: 10px 0;
+}
+.fairness-marker {
+  position: absolute;
+  top: -3px;
+  width: 18px; height: 18px;
+  background: var(--navy);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transform: translateX(-50%);
+  transition: left 1s ease;
+}
+
+/* COMPARE MODAL */
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table th { background: var(--bg); font-weight: 800; color: var(--navy); font-size: 0.72rem; }
+.compare-table tr:last-child td { border-bottom: none; }
+
+/* HISTORY SECTION */
+.history-item {
+  padding: 10px;
+  background: var(--bg);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+}
+.history-item-title { font-weight: 700; color: var(--navy); }
+.history-item-meta { color: var(--text-muted); font-size: 0.7rem; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .chat-panel { height: 420px; position: relative; top: 0; }
+}
+
+/* GOVT SCHEMES SECTION */
+.scheme-expand-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--teal-light);
+  border: 1.5px solid var(--teal);
+  border-radius: 10px;
+  color: var(--teal-dark);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--font);
+  margin-top: 8px;
+  transition: all 0.2s;
+}
+.scheme-expand-btn:hover { background: var(--teal); color: #fff; }
+.eligibility-check {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 12px;
+}
+.eligibility-question { font-size: 0.82rem; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.eligibility-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.eligibility-opt {
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  font-family: var(--font);
+  transition: all 0.2s;
+}
+.eligibility-opt:hover { background: var(--teal-light); border-color: var(--teal); }
+.eligibility-opt.selected { background: var(--teal); color: #fff; border-color: var(--teal); }
+.eligibility-result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  display: none;
+}
+.eligibility-result.show { display: block; }
+.elig-eligible { background: var(--success-light); color: #14532d; border: 1.5px solid var(--success); }
+.elig-maybe { background: var(--amber-light); color: #92400e; border: 1.5px solid var(--amber); }
+.elig-not { background: var(--danger-light); color: #991b1b; border: 1.5px solid var(--danger); }
+
+/* SYMPTOM CHECKER */
+.symptom-checker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.symptom-tile {
+  padding: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.72rem;
+}
+.symptom-tile:hover { border-color: var(--teal); background: var(--teal-light); }
+.symptom-tile-icon { font-size: 1.3rem; display: block; margin-bottom: 3px; }
+
+/* NEARBY HOSPITALS MAP PLACEHOLDER */
+.map-placeholder {
+  background: linear-gradient(135deg, #e8f4fd, #dff0ea);
+  border: 1.5px dashed var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* CONFIRMED USER SUMMARY */
+.user-summary {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+}
+.user-summary-title { font-weight: 800; font-size: 0.88rem; margin-bottom: 8px; opacity: 0.9; }
+.user-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.user-summary-item { font-size: 0.75rem; }
+.user-summary-label { opacity: 0.6; font-size: 0.68rem; }
+.user-summary-val { font-weight: 700; }
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  transition: all 0.2s;
+}
+.scroll-to-top:hover { background: var(--teal-dark); transform: scale(1.1); }
+.scroll-to-top.show { display: flex; }
+
+/* Fun fact bar */
+.fun-fact-bar {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  color: rgba(255,255,255,0.75);
+  padding: 6px 18px;
+  font-size: 0.72rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.print-btn {
+  padding: 7px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-mid);
+  font-family: var(--font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.print-btn:hover { background: var(--bg); border-color: var(--teal); color: var(--teal-dark); }
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">Analyzing your query...</div>
+  <div class="loading-sub" id="loadingSub">Using JeevanCare AI Engine</div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="contactHospName">Hospital Contact</div>
+      <button class="modal-close" onclick="closeContactModal()">✕</button>
+    </div>
+    <div id="contactContent"></div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div class="modal-overlay" id="compareModal">
+  <div class="modal-box" style="max-width:600px">
+    <div class="modal-header">
+      <div class="modal-title">🏥 Hospital Comparison</div>
+      <button class="modal-close" onclick="document.getElementById('compareModal').classList.remove('show')">✕</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="compare-table" id="compareTableBody"></table>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="app-header">
+    <svg class="logo-shield" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 2L4 14V36C4 50.4 15.4 63.4 30 68C44.6 63.4 56 50.4 56 36V14L30 2Z" fill="#0b2545" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <path d="M30 6L8 17V36C8 48.8 18 60.4 30 64.8C42 60.4 52 48.8 52 36V17L30 6Z" fill="#163966"/>
+      <circle cx="30" cy="33" r="14" fill="none" stroke="#0e9c8a" stroke-width="1.5" opacity="0.6"/>
+      <path d="M26 33H22M38 33H34M30 27V23M30 43V39" stroke="#0e9c8a" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+      <path d="M24 33H36M30 27V39" stroke="#22d3bb" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M18 33 Q24 24 30 33 Q36 42 42 33" stroke="#0e9c8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <rect x="0" y="57" width="60" height="4" fill="none"/>
+      <rect x="0" y="60" width="20" height="4" fill="#FF9933" rx="1"/>
+      <rect x="20" y="60" width="20" height="4" fill="#ffffff"/>
+      <rect x="40" y="60" width="20" height="4" fill="#138808" rx="1"/>
+      <circle cx="30" cy="62" r="2" fill="#000080" opacity="0.3"/>
+    </svg>
+    <div class="brand-text">
+      <div class="brand-name">JeevanCare</div>
+      <div class="brand-tagline">Empowering India with Intelligent Care</div>
+    </div>
+    <div class="header-status">
+      <div class="status-dot"></div>
+      <span>AI Active</span>
+    </div>
+  </div>
+  <div class="tricolor-strip"></div>
+  <div class="fun-fact-bar" id="funFactBar">💡 Your heart beats ~100,000 times a day — more dedication than most gym-goers!</div>
+</header>
+
+<div class="app-layout">
+
+  <!-- LEFT: CHAT PANEL -->
+  <aside class="chat-panel">
+    <!-- Language Bar -->
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('hi',this)">हिं</button>
+      <button class="lang-btn" onclick="setLang('ta',this)">தமி</button>
+      <button class="lang-btn" onclick="setLang('te',this)">తెలు</button>
+      <button class="lang-btn" onclick="setLang('bn',this)">বাং</button>
+      <button class="lang-btn" onclick="setLang('mr',this)">मरा</button>
+    </div>
+    <!-- Chat Subheader -->
+    <div class="chat-subheader">
+      <div class="chat-title">💬 JeevanCare Assistant</div>
+      <div class="chat-sub">Step-by-step health guidance</div>
+    </div>
+    <!-- Progress -->
+    <div class="onboarding-progress">
+      <div class="progress-steps" id="progressSteps"></div>
+      <div class="step-label-bar" id="stepLabelBar">Start by describing your concern</div>
+    </div>
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages"></div>
+    <!-- Quick Chips -->
+    <div class="quick-chips" id="quickChips"></div>
+    <!-- Input -->
+    <div class="chat-input-area">
+      <div class="input-row">
+        <input class="chat-input" id="chatInput" placeholder="Type your symptom, city or budget..." onkeydown="handleKey(event)" />
+        <button class="send-btn" onclick="handleSend()">➤</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: RESULTS PANEL -->
+  <main class="results-panel" id="resultsPanel">
+    <!-- WELCOME -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <svg class="welcome-shield" width="90" height="105" viewBox="0 0 60 70" fill="none">
+        <path d="M30 2L4 14V36C4 50.4 15.4 63.4 30 68C44.6 63.4 56 50.4 56 36V14L30 2Z" fill="#0b2545"/>
+        <path d="M30 6L8 17V36C8 48.8 18 60.4 30 64.8C42 60.4 52 48.8 52 36V17L30 6Z" fill="#163966"/>
+        <circle cx="30" cy="33" r="14" fill="none" stroke="#0e9c8a" stroke-width="1.5" opacity="0.6"/>
+        <path d="M24 33H36M30 27V39" stroke="#22d3bb" stroke-width="3" stroke-linecap="round"/>
+        <path d="M18 33 Q24 24 30 33 Q36 42 42 33" stroke="#0e9c8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="welcome-title">Welcome to JeevanCare</div>
+      <div class="welcome-sub">India's intelligent healthcare assistant. Get hospital recommendations, cost estimates, and insurance guidance — all in one place.</div>
+      <div class="welcome-features">
+        <div class="welcome-feat"><div class="welcome-feat-icon">🏥</div><div class="welcome-feat-title">Hospital Finder</div>Best hospitals near you with ratings & costs</div>
+        <div class="welcome-feat"><div class="welcome-feat-icon">💰</div><div class="welcome-feat-title">Cost Estimator</div>Transparent cost breakdowns with no surprises</div>
+        <div class="welcome-feat"><div class="welcome-feat-icon">🛡️</div><div class="welcome-feat-title">Insurance Guide</div>Government & private schemes explained clearly</div>
+        <div class="welcome-feat"><div class="welcome-feat-icon">🤖</div><div class="welcome-feat-title">AI Diagnosis</div>Real-time symptom analysis with confidence scores</div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px;">Start by chatting on the left ← or tap a suggestion</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="resultsContent" style="display:none">
+      <!-- User Summary -->
+      <div class="user-summary" id="userSummaryBar"></div>
+      <!-- Urgency Banner -->
+      <div id="urgencyBanner"></div>
+      <!-- Disclaimer -->
+      <div class="disclaimer">⚠️ <strong>Medical Disclaimer:</strong> JeevanCare is a decision-support tool and does not replace professional medical advice. Always consult a qualified doctor for diagnosis and treatment. In emergencies, call <strong>112</strong> immediately.</div>
+      <!-- TABS -->
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="showTab('hospitals',this)">🏥 Hospitals</button>
+        <button class="tab-btn" onclick="showTab('costs',this)">💰 Costs</button>
+        <button class="tab-btn" onclick="showTab('journey',this)">🗺️ Journey</button>
+        <button class="tab-btn" onclick="showTab('insurance',this)">🛡️ Insurance</button>
+        <button class="tab-btn" onclick="showTab('analysis',this)">📊 Analysis</button>
+      </div>
+
+      <!-- TAB: HOSPITALS -->
+      <div class="tab-content active" id="tab-hospitals">
+        <div class="section-card" style="padding-bottom:8px">
+          <div class="section-title"><span class="section-icon">🩺</span>Identified Condition</div>
+          <div class="condition-header" id="conditionHeader"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title" style="justify-content:space-between">
+            <span><span class="section-icon">🏥</span>Recommended Hospitals</span>
+            <div style="display:flex;gap:8px">
+              <button class="print-btn" onclick="showCheapest()">💰 Cheapest</button>
+              <button class="print-btn" onclick="showCompare()">⚖️ Compare</button>
+            </div>
+          </div>
+          <div id="hospitalsList"></div>
+        </div>
+        <!-- Symptom Quick-Access -->
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">🔍</span>Quick Symptom Lookup</div>
+          <div class="symptom-checker-grid" id="symptomGrid"></div>
+        </div>
+      </div>
+
+      <!-- TAB: COSTS -->
+      <div class="tab-content" id="tab-costs">
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">💰</span>Estimated Cost Breakdown</div>
+          <div id="costBreakdownView"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">⚖️</span>Market Fairness</div>
+          <div id="fairnessView"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">📜</span>Cost History for this Procedure</div>
+          <div id="costHistoryView"></div>
+        </div>
+      </div>
+
+      <!-- TAB: JOURNEY -->
+      <div class="tab-content" id="tab-journey">
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">🗺️</span>Your Treatment Journey</div>
+          <div class="journey-timeline" id="journeyTimeline"></div>
+        </div>
+      </div>
+
+      <!-- TAB: INSURANCE -->
+      <div class="tab-content" id="tab-insurance">
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">🛡️</span>Matching Insurance Schemes</div>
+          <div id="insuranceList"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">📋</span>Insurance Claim Workflow</div>
+          <div id="insuranceWorkflow"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">✅</span>Check Your Eligibility</div>
+          <div id="eligibilityChecker"></div>
+        </div>
+      </div>
+
+      <!-- TAB: ANALYSIS -->
+      <div class="tab-content" id="tab-analysis">
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">📊</span>AI Confidence Score</div>
+          <div id="confidenceView"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">⚠️</span>Risk Personalisation</div>
+          <div id="riskView"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-title"><span class="section-icon">🕐</span>Recent Queries</div>
+          <div id="historyView"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <button class="print-btn" style="flex:1;justify-content:center" onclick="window.print()">🖨️ Print Report</button>
+          <button class="print-btn" style="flex:1;justify-content:center" onclick="downloadSummary()">⬇️ Download Summary</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<button class="scroll-to-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── DATA ──────────────────────────────────────────────
+const HOSPITALS_DB = [
+  {id:1,name:"Kokilaben Dhirubhai Ambani Hospital",city:"Mumbai",state:"Maharashtra",rating:4.6,reviews:2840,accreditation:"NABH, JCI",type:"private",beds:750,established:2009,emergency:true,specializations:["Cardiology","Oncology","Neurology","Orthopedics"],cost_index:"high",phone:"022-30999999",email:"info@kokilabenhospital.com",website:"https://www.kokilabenhospital.com",address:"Rao Saheb Achutrao Patwardhan Marg, Four Bungalows, Andheri West, Mumbai 400053",lat:19.1334,lng:72.8259},
+  {id:2,name:"Lilavati Hospital",city:"Mumbai",state:"Maharashtra",rating:4.4,reviews:1920,accreditation:"NABH",type:"private",beds:323,established:1978,emergency:true,specializations:["Cardiology","Oncology","Orthopedics","Gynecology"],cost_index:"high",phone:"022-26751000",email:"info@lilavatihospital.com",website:"https://www.lilavatihospital.com",address:"A-791, Bandra Reclamation, Bandra West, Mumbai 400050",lat:19.0548,lng:72.8289},
+  {id:3,name:"KEM Hospital",city:"Mumbai",state:"Maharashtra",rating:4.0,reviews:980,accreditation:"NABH",type:"government",beds:1800,established:1926,emergency:true,specializations:["General Medicine","Surgery","Pediatrics"],cost_index:"low",phone:"022-24136051",email:"kemhospital@gmail.com",website:"https://www.kemhospital.com",address:"Acharya Donde Marg, Parel, Mumbai 400012",lat:18.9962,lng:72.8415},
+  {id:4,name:"AIIMS Delhi",city:"Delhi",state:"Delhi",rating:4.7,reviews:5200,accreditation:"NABH",type:"government",beds:2478,established:1956,emergency:true,specializations:["All Specialties"],cost_index:"low",phone:"011-26588500",email:"director@aiims.edu",website:"https://www.aiims.edu",address:"Sri Aurobindo Marg, Ansari Nagar, New Delhi 110029",lat:28.5672,lng:77.2100},
+  {id:5,name:"Fortis Escorts Heart Institute",city:"Delhi",state:"Delhi",rating:4.5,reviews:2100,accreditation:"NABH, JCI",type:"private",beds:310,established:1988,emergency:true,specializations:["Cardiology","Cardiac Surgery"],cost_index:"high",phone:"011-47135000",email:"info@fortishealthcare.com",website:"https://www.fortishealthcare.com",address:"Okhla Road, New Delhi 110025",lat:28.5431,lng:77.2510},
+  {id:6,name:"Max Super Specialty Hospital",city:"Delhi",state:"Delhi",rating:4.4,reviews:1870,accreditation:"NABH, JCI",type:"private",beds:500,established:2000,emergency:true,specializations:["Cardiology","Oncology","Neurology","Orthopedics"],cost_index:"high",phone:"011-26515050",email:"info@maxhealthcare.in",website:"https://www.maxhealthcare.in",address:"Press Enclave Road, Saket, New Delhi 110017",lat:28.5244,lng:77.2066},
+  {id:7,name:"Apollo Hospitals Chennai",city:"Chennai",state:"Tamil Nadu",rating:4.6,reviews:3100,accreditation:"NABH, JCI",type:"private",beds:560,established:1983,emergency:true,specializations:["Cardiology","Oncology","Orthopedics","Transplant"],cost_index:"high",phone:"044-28290200",email:"enquiry@apollohospitals.com",website:"https://www.apollohospitals.com",address:"21 Greams Lane, Off Greams Road, Chennai 600006",lat:13.0569,lng:80.2496},
+  {id:8,name:"Government General Hospital Chennai",city:"Chennai",state:"Tamil Nadu",rating:3.9,reviews:760,accreditation:"NABH",type:"government",beds:2500,established:1664,emergency:true,specializations:["General Medicine","Surgery","Pediatrics"],cost_index:"low",phone:"044-25305000",email:"mgmgh@tn.gov.in",website:"https://www.mgh.tn.gov.in",address:"Park Town, Chennai 600003",lat:13.0827,lng:80.2707},
+  {id:9,name:"Narayana Health City",city:"Bangalore",state:"Karnataka",rating:4.4,reviews:1800,accreditation:"NABH, JCI",type:"private",beds:3000,established:2000,emergency:true,specializations:["Cardiac Surgery","Oncology","Orthopedics","Neurology"],cost_index:"mid",phone:"080-71222222",email:"contactus@narayanahealth.org",website:"https://www.narayanahealth.org",address:"258/A, Bommasandra Industrial Area, Anekal Taluk, Bangalore 560099",lat:12.8399,lng:77.6770},
+  {id:10,name:"Manipal Hospital Bangalore",city:"Bangalore",state:"Karnataka",rating:4.5,reviews:2200,accreditation:"NABH, JCI",type:"private",beds:600,established:1991,emergency:true,specializations:["Cardiology","Oncology","Orthopedics","Neurology"],cost_index:"high",phone:"080-25024444",email:"info@manipalhospitals.com",website:"https://www.manipalhospitals.com",address:"98 HAL Airport Road, Bangalore 560017",lat:12.9591,lng:77.6474},
+  {id:11,name:"KIMS Hospital Hyderabad",city:"Hyderabad",state:"Telangana",rating:4.4,reviews:1650,accreditation:"NABH",type:"private",beds:450,established:2005,emergency:true,specializations:["Cardiology","Oncology","Neurology","Orthopedics"],cost_index:"mid",phone:"040-44885000",email:"contact@kimshospitals.com",website:"https://www.kimshospitals.com",address:"1-8-31/1 Minister Road, Secunderabad 500003",lat:17.4401,lng:78.4987},
+  {id:12,name:"Yashoda Hospital Hyderabad",city:"Hyderabad",state:"Telangana",rating:4.3,reviews:1420,accreditation:"NABH",type:"private",beds:350,established:1989,emergency:true,specializations:["Cardiology","Gastroenterology","Orthopedics"],cost_index:"mid",phone:"040-45671000",email:"info@yashodahospitals.com",website:"https://www.yashodahospitals.com",address:"Behind Hari Hara Kala Bhavan, S.P. Road, Secunderabad 500003",lat:17.4239,lng:78.4738},
+  {id:13,name:"Wockhardt Hospital Nagpur",city:"Nagpur",state:"Maharashtra",rating:4.2,reviews:620,accreditation:"NABH",type:"private",beds:150,established:2008,emergency:true,specializations:["Cardiology","Orthopedics","Neurology"],cost_index:"mid",phone:"0712-6634400",email:"nagpur@wockhardthospitals.net",website:"https://www.wockhardthospitals.com",address:"1440 Trimurti Nagar, Nagpur 440022",lat:21.1458,lng:79.0882},
+  {id:14,name:"Orange City Hospital Nagpur",city:"Nagpur",state:"Maharashtra",rating:4.1,reviews:540,accreditation:"NABH",type:"private",beds:200,established:2001,emergency:true,specializations:["Cardiology","General Surgery","Orthopedics"],cost_index:"low",phone:"0712-2228888",email:"info@orangecityhospital.com",website:"https://www.orangecityhospital.com",address:"872 Central Bazar Road, Ramdaspeth, Nagpur 440010",lat:21.1544,lng:79.0891},
+  {id:15,name:"Government Medical College Nagpur",city:"Nagpur",state:"Maharashtra",rating:3.8,reviews:380,accreditation:"NABH",type:"government",beds:1200,established:1947,emergency:true,specializations:["General Medicine","Surgery","Pediatrics"],cost_index:"low",phone:"0712-2740003",email:"gmcnagpur@maharashtra.gov.in",website:"https://gmcnagpur.org",address:"Medical Square, Nagpur 440003",lat:21.1498,lng:79.0779},
+  {id:16,name:"AMRI Hospital Kolkata",city:"Kolkata",state:"West Bengal",rating:4.4,reviews:1380,accreditation:"NABH",type:"private",beds:400,established:2003,emergency:true,specializations:["Cardiology","Oncology","Orthopedics"],cost_index:"mid",phone:"033-66000000",email:"info@amrihospitals.in",website:"https://www.amrihospitals.in",address:"JC-16 & 17, Salt Lake, Kolkata 700098",lat:22.5726,lng:88.3639},
+  {id:17,name:"Fortis Hospital Jaipur",city:"Jaipur",state:"Rajasthan",rating:4.3,reviews:780,accreditation:"NABH",type:"private",beds:250,established:2006,emergency:true,specializations:["Cardiology","Orthopedics","Oncology"],cost_index:"mid",phone:"0141-2547000",email:"fortis.jaipur@fortishealthcare.com",website:"https://www.fortishealthcare.com",address:"Jawaharlal Nehru Marg, Malviya Nagar, Jaipur 302017",lat:26.8988,lng:75.7958},
+  {id:18,name:"SMS Hospital Jaipur",city:"Jaipur",state:"Rajasthan",rating:3.9,reviews:560,accreditation:"NABH",type:"government",beds:3000,established:1934,emergency:true,specializations:["General Medicine","Surgery","Pediatrics"],cost_index:"low",phone:"0141-2518888",email:"smshospitaljaipur@gmail.com",website:"https://smshospital.rajasthan.gov.in",address:"JLN Marg, Jaipur 302004",lat:26.9124,lng:75.7873},
+  {id:19,name:"Christian Medical College",city:"Vellore",state:"Tamil Nadu",rating:4.7,reviews:4200,accreditation:"NABH, JCI",type:"private",beds:2700,established:1900,emergency:true,specializations:["All Specialties"],cost_index:"mid",phone:"0416-2281000",email:"info@cmcvellore.ac.in",website:"https://www.cmcvellore.ac.in",address:"Ida Scudder Road, Vellore 632004",lat:12.9290,lng:79.1328},
+  {id:20,name:"Tata Memorial Hospital",city:"Mumbai",state:"Maharashtra",rating:4.5,reviews:3800,accreditation:"NABH",type:"government",beds:629,established:1941,emergency:true,specializations:["Oncology","Cancer Surgery","Radiation"],cost_index:"low",phone:"022-24177000",email:"info@tmc.gov.in",website:"https://tmc.gov.in",address:"Dr Ernest Borges Marg, Parel, Mumbai 400012",lat:19.0015,lng:72.8393},
+];
+
+const PROCEDURES_DB = [
+  {id:1,name:"Coronary Angioplasty (PTCA)",spec:"Cardiology",min:120000,max:280000,days:4,keywords:["angioplasty","heart blockage","stent","chest pain","heart attack","cardiac","coronary","angio","angina"],desc:"Opens narrowed coronary arteries using a balloon catheter and stent placement"},
+  {id:2,name:"Coronary Bypass (CABG)",spec:"Cardiac Surgery",min:280000,max:600000,days:10,keywords:["bypass","open heart","cabg","coronary bypass","heart surgery","bypass surgery"],desc:"Reroutes blood flow around blocked coronary arteries using graft vessels"},
+  {id:3,name:"Knee Replacement (TKR)",spec:"Orthopedics",min:180000,max:380000,days:7,keywords:["knee replacement","knee pain","arthritis knee","tkr","joint pain knee","ghutna","घुटना"],desc:"Replaces damaged knee joint with an artificial metal-plastic implant"},
+  {id:4,name:"Hip Replacement (THR)",spec:"Orthopedics",min:200000,max:420000,days:7,keywords:["hip replacement","hip pain","hip fracture","hip surgery","kulha"],desc:"Total replacement of the hip joint for severe arthritis or fracture"},
+  {id:5,name:"Brain Tumor Surgery",spec:"Neurosurgery",min:350000,max:800000,days:14,keywords:["brain tumor","brain cancer","brain surgery","craniotomy","head tumor"],desc:"Surgical removal or debulking of brain tumor under general anaesthesia"},
+  {id:6,name:"Appendectomy",spec:"General Surgery",min:40000,max:120000,days:3,keywords:["appendix","appendicitis","stomach pain right","appendix pain","appendix operation"],desc:"Laparoscopic or open removal of inflamed appendix"},
+  {id:7,name:"Cataract Surgery",spec:"Ophthalmology",min:20000,max:80000,days:1,keywords:["cataract","eye surgery","blurry vision","eye problem","motiyabind","motiabind","கண்புரை","కంటిపొర"],desc:"Phacoemulsification with IOL implant for cataract removal"},
+  {id:8,name:"Kidney Stone Removal (PCNL)",spec:"Urology",min:60000,max:200000,days:4,keywords:["kidney stone","urinary stone","back pain kidney","pathri","patthar","stone kidney","పాతర్","சிறுநீரக கல்"],desc:"Minimally invasive percutaneous nephrolithotomy for large kidney stones"},
+  {id:9,name:"Gallbladder Removal",spec:"General Surgery",min:50000,max:150000,days:3,keywords:["gallbladder","gallstone","pitta","stomach pain eating","gallbladder stone","pit ki pathri"],desc:"Laparoscopic cholecystectomy for gallstone disease"},
+  {id:10,name:"Spine Surgery (TLIF)",spec:"Spine Surgery",min:250000,max:600000,days:8,keywords:["spine surgery","back surgery","disc","slip disc","sciatica","back pain severe","reedh"],desc:"Transforaminal lumbar interbody fusion for severe disc disease"},
+  {id:11,name:"Cancer Chemotherapy (per cycle)",spec:"Oncology",min:30000,max:150000,days:1,keywords:["cancer","chemo","chemotherapy","tumor","blood cancer","breast cancer","lung cancer"],desc:"Systemic chemotherapy treatment cycle for various malignancies"},
+  {id:12,name:"Kidney Dialysis (per session)",spec:"Nephrology",min:2000,max:8000,days:1,keywords:["dialysis","kidney failure","kidney disease","renal failure","gurdha","dialisis"],desc:"Haemodialysis session for end-stage renal disease"},
+  {id:13,name:"Cardiac Angiography",spec:"Cardiology",min:15000,max:40000,days:1,keywords:["angiography","heart test","chest pain test","heart blockage test","angio","angiogram"],desc:"Coronary angiography to assess heart blockage using contrast dye"},
+  {id:14,name:"Normal Delivery",spec:"Gynecology",min:20000,max:60000,days:3,keywords:["delivery","pregnancy","normal delivery","labour","prasav","bachha","deliver","pregnant"],desc:"Assisted normal vaginal childbirth with post-natal care"},
+  {id:15,name:"Caesarean Section",spec:"Gynecology",min:60000,max:180000,days:5,keywords:["caesarean","c-section","cesarean","delivery operation","birth surgery","operation delivery"],desc:"Surgical delivery of baby via abdominal incision"},
+  {id:16,name:"Liver Transplant",spec:"Transplant",min:1500000,max:3000000,days:30,keywords:["liver transplant","liver failure","cirrhosis","liver disease","hepatic failure","liver problem"],desc:"Orthotopic liver transplantation for end-stage liver disease"},
+  {id:17,name:"Pacemaker Implantation",spec:"Cardiology",min:180000,max:450000,days:3,keywords:["pacemaker","heart rate slow","cardiac pacemaker","slow heart","bradycardia"],desc:"Permanent cardiac pacemaker device implantation for arrhythmia"},
+  {id:18,name:"Diabetic Foot Surgery",spec:"Vascular Surgery",min:80000,max:250000,days:7,keywords:["diabetic foot","foot ulcer","diabetes foot","gangrene","madhumeh pair"],desc:"Surgical debridement or amputation for diabetic foot complications"},
+];
+
+const SYMPTOM_MAP = {
+  "chest pain":   {condition:"Coronary Artery Disease",proc_ids:[1,2,13],urgency:"high",icon:"❤️"},
+  "heart attack": {condition:"Acute Myocardial Infarction",proc_ids:[1,2],urgency:"emergency",icon:"🚨"},
+  "heart":        {condition:"Cardiac Condition",proc_ids:[1,2,13,17],urgency:"medium",icon:"❤️"},
+  "cardiac":      {condition:"Cardiac Condition",proc_ids:[1,13],urgency:"high",icon:"❤️"},
+  "stent":        {condition:"Coronary Artery Disease",proc_ids:[1],urgency:"high",icon:"❤️"},
+  "bypass":       {condition:"Coronary Artery Disease (Severe)",proc_ids:[2],urgency:"high",icon:"❤️"},
+  "angioplasty":  {condition:"Coronary Artery Disease",proc_ids:[1],urgency:"high",icon:"❤️"},
+  "angiography":  {condition:"Suspected CAD",proc_ids:[13],urgency:"medium",icon:"❤️"},
+  "pacemaker":    {condition:"Cardiac Arrhythmia",proc_ids:[17],urgency:"high",icon:"💓"},
+  "knee pain":    {condition:"Knee Osteoarthritis",proc_ids:[3],urgency:"low",icon:"🦵"},
+  "knee":         {condition:"Knee Disorder",proc_ids:[3],urgency:"low",icon:"🦵"},
+  "ghutna":       {condition:"घुटने की बीमारी",proc_ids:[3],urgency:"low",icon:"🦵"},
+  "hip pain":     {condition:"Hip Osteoarthritis",proc_ids:[4],urgency:"low",icon:"🦴"},
+  "hip":          {condition:"Hip Disorder",proc_ids:[4],urgency:"low",icon:"🦴"},
+  "brain tumor":  {condition:"Brain Tumor",proc_ids:[5],urgency:"high",icon:"🧠"},
+  "brain":        {condition:"Brain / Neurological Condition",proc_ids:[5],urgency:"high",icon:"🧠"},
+  "appendix":     {condition:"Appendicitis",proc_ids:[6],urgency:"high",icon:"🤕"},
+  "appendicitis": {condition:"Appendicitis",proc_ids:[6],urgency:"high",icon:"🤕"},
+  "cataract":     {condition:"Cataract",proc_ids:[7],urgency:"low",icon:"👁️"},
+  "motiyabind":   {condition:"Cataract (मोतियाबिंद)",proc_ids:[7],urgency:"low",icon:"👁️"},
+  "eye":          {condition:"Eye Condition",proc_ids:[7],urgency:"low",icon:"👁️"},
+  "kidney stone": {condition:"Nephrolithiasis (Kidney Stone)",proc_ids:[8],urgency:"medium",icon:"🫘"},
+  "pathri":       {condition:"Kidney Stone (पथरी)",proc_ids:[8],urgency:"medium",icon:"🫘"},
+  "kidney failure":{condition:"Chronic Kidney Disease",proc_ids:[12],urgency:"high",icon:"🫘"},
+  "dialysis":     {condition:"Renal Failure",proc_ids:[12],urgency:"high",icon:"🫘"},
+  "gallbladder":  {condition:"Cholelithiasis",proc_ids:[9],urgency:"medium",icon:"🫀"},
+  "gallstone":    {condition:"Gallstone Disease",proc_ids:[9],urgency:"medium",icon:"🫀"},
+  "back pain":    {condition:"Lumbar Disc Disease",proc_ids:[10],urgency:"medium",icon:"🦴"},
+  "slip disc":    {condition:"Herniated Disc",proc_ids:[10],urgency:"medium",icon:"🦴"},
+  "sciatica":     {condition:"Sciatica",proc_ids:[10],urgency:"medium",icon:"🦴"},
+  "cancer":       {condition:"Malignancy (needs evaluation)",proc_ids:[11],urgency:"high",icon:"🔴"},
+  "tumor":        {condition:"Tumor (needs evaluation)",proc_ids:[11,5],urgency:"high",icon:"🔴"},
+  "pregnancy":    {condition:"Pregnancy",proc_ids:[14,15],urgency:"medium",icon:"🤰"},
+  "delivery":     {condition:"Childbirth",proc_ids:[14,15],urgency:"medium",icon:"🤰"},
+  "c-section":    {condition:"Caesarean Delivery",proc_ids:[15],urgency:"medium",icon:"🤰"},
+  "liver":        {condition:"Liver Disease",proc_ids:[16],urgency:"high",icon:"🫁"},
+  "cirrhosis":    {condition:"Liver Cirrhosis",proc_ids:[16],urgency:"high",icon:"🫁"},
+  "diabetic foot":{condition:"Diabetic Foot Complications",proc_ids:[18],urgency:"high",icon:"🦶"},
+  "gangrene":     {condition:"Gangrene",proc_ids:[18],urgency:"emergency",icon:"🚨"},
+};
+
+const CITY_MULT = {
+  "mumbai":1.4,"delhi":1.35,"bangalore":1.3,"bengaluru":1.3,"chennai":1.25,
+  "hyderabad":1.2,"kolkata":1.15,"pune":1.2,"ahmedabad":1.1,"jaipur":1.0,
+  "nagpur":1.0,"lucknow":0.95,"coimbatore":0.95,"bhopal":0.9,"visakhapatnam":0.9,
+  "indore":0.9,"patna":0.85,"ranchi":0.85,"guwahati":0.85,"vellore":0.9,
+  "surat":1.05,"kochi":1.0,"chandigarh":1.05
+};
+
+const INSURANCE_FULL = [
+  {
+    id:"pmjay",
+    name:"Ayushman Bharat PM-JAY",
+    type:"government",
+    coverage:500000,
+    premium:0,
+    note:"India's flagship health insurance for 10 crore+ economically vulnerable families. Cashless treatment at empanelled government and private hospitals.",
+    eligibility:"BPL families, SECC database listed, Jan Arogya labelled",
+    benefits:["₹5 lakh cover per family per year","No premium for beneficiaries","Cashless & paperless at empanelled hospitals","Pre-existing conditions covered from Day 1","Covers 1949+ medical packages"],
+    documents:["Aadhar Card","Ration Card","PM-JAY card (from CSC)","Income Certificate"],
+    claimProcess:[
+      {step:"Check Eligibility",desc:"Visit pmjay.gov.in or call 14555. Enter Aadhar/ration card details"},
+      {step:"Get PM-JAY Card",desc:"Visit nearest Common Service Centre (CSC) with documents"},
+      {step:"Find Empanelled Hospital",desc:"Use AM I Eligible app or hospital locator on website"},
+      {step:"Pre-authorisation",desc:"Hospital submits pre-auth request online through AB-PMJAY portal"},
+      {step:"Cashless Treatment",desc:"Avail treatment at zero cost — hospital bills directly to scheme"},
+      {step:"Post-Discharge",desc:"Receive discharge summary & claim receipt from hospital"}
+    ],
+    phone:"14555",
+    website:"https://pmjay.gov.in"
+  },
+  {
+    id:"star",
+    name:"Star Health & Allied Insurance",
+    type:"private",
+    coverage:1000000,
+    premium:15000,
+    note:"India's largest standalone health insurer. Wide network with cashless facility at 14,000+ hospitals.",
+    eligibility:"Age 18–65 years, medical check up for >50 years",
+    benefits:["₹10 lakh family floater cover","Cashless at 14,000+ hospitals","No co-pay for most plans","30/60 day pre/post hospitalisation","Mental health cover included"],
+    documents:["Proposal form","Age proof","ID proof","Medical reports (if applicable)"],
+    claimProcess:[
+      {step:"Inform Insurer",desc:"Call Star Health helpline 1800-425-2255 within 24 hrs of hospitalisation"},
+      {step:"Pre-Authorisation",desc:"Hospital TPA desk sends pre-auth to insurance within 4 hours"},
+      {step:"Treatment",desc:"Avail cashless treatment — network hospitals settle bill directly"},
+      {step:"Claim Form",desc:"Fill discharge claim form with hospital at time of discharge"},
+      {step:"Document Submission",desc:"Submit all bills, reports, discharge summary to TPA desk"},
+      {step:"Settlement",desc:"Cashless: settled at discharge. Reimbursement: 15-30 working days"}
+    ],
+    phone:"1800-425-2255",
+    website:"https://www.starhealth.in"
+  },
+  {
+    id:"hdfc",
+    name:"HDFC ERGO Health (Optima Restore)",
+    type:"private",
+    coverage:1500000,
+    premium:18000,
+    note:"Comprehensive health insurance with unique Restore benefit — coverage auto-restored after use.",
+    eligibility:"Age 5–65 years, family floater available",
+    benefits:["₹15 lakh cover with auto-restore","Cashless at 13,000+ hospitals","No sub-limits on room rent","AYUSH treatment covered","Critical illness rider available"],
+    documents:["Proposal form","Aadhar / PAN","Medical history declaration"],
+    claimProcess:[
+      {step:"Hospitalisation",desc:"Admit to HDFC ERGO network hospital; intimate insurer within 24-48 hrs"},
+      {step:"Pre-auth Request",desc:"Network hospital submits cashless request; approval within 2 hours"},
+      {step:"Treatment",desc:"Avail full cashless treatment within sanctioned amount"},
+      {step:"Final Bill",desc:"At discharge, hospital submits final bill to insurer"},
+      {step:"Settlement",desc:"Insurer settles with hospital directly; any deductible paid by patient"},
+      {step:"Restore Benefit",desc:"Sum insured auto-restored once exhausted — no extra premium"}
+    ],
+    phone:"1800-2700-700",
+    website:"https://www.hdfcergo.com"
+  },
+  {
+    id:"national",
+    name:"National Mediclaim Policy",
+    type:"government",
+    coverage:500000,
+    premium:8000,
+    note:"Central Government backed insurance by National Insurance Company. Trusted by millions.",
+    eligibility:"Any Indian citizen aged 18–65 years",
+    benefits:["₹5 lakh individual / family cover","Government-backed reliable claim","Cashless at PSU hospital network","Critical illness coverage","Tax benefit under 80D"],
+    documents:["Proposal form","ID proof","Age proof","Medical certificate"],
+    claimProcess:[
+      {step:"Buy Policy",desc:"Visit nearest National Insurance branch or register online"},
+      {step:"Get TPA Card",desc:"Receive Third Party Administrator health card within 15 days"},
+      {step:"Hospitalisation",desc:"For cashless: go to network hospital; for others: pay and claim"},
+      {step:"Intimate TPA",desc:"Call TPA helpline within 24 hours of admission"},
+      {step:"Claim Documents",desc:"Submit claim form, original bills, reports, discharge summary"},
+      {step:"Reimbursement",desc:"Claim settled within 21 working days after complete documents"}
+    ],
+    phone:"1800-209-1415",
+    website:"https://www.nationalinsuranceindia.nic.co.in"
+  },
+  {
+    id:"esic",
+    name:"ESIC (Employees' State Insurance)",
+    type:"government",
+    coverage:1000000,
+    premium:0,
+    note:"Mandatory social security for salaried employees earning up to ₹21,000/month. Fully employer-funded.",
+    eligibility:"Employees earning ≤ ₹21,000/month in registered establishments",
+    benefits:["Full medical care for insured & family","No premium paid by employee","Maternity, disability & death benefits","Specialist care at ESIC hospitals","Medicines dispensed free"],
+    documents:["ESI card (from employer)","IP number","Aadhar for identity"],
+    claimProcess:[
+      {step:"Register with Employer",desc:"Employer registers you in ESIC; you receive IP (Insured Person) number"},
+      {step:"Get ESI Card",desc:"Download e-Pehchaan card from esic.in portal using IP number"},
+      {step:"Visit ESIC Hospital",desc:"For OPD/IPD: go to nearest ESIC dispensary or hospital with IP card"},
+      {step:"Referral for Specialist",desc:"ESIC doctors refer to specialists; all costs covered"},
+      {step:"Hospitalisation",desc:"ESIC hospitals provide free IPD treatment; empanelled private hospitals for cashless"},
+      {step:"Reimbursement",desc:"For non-network treatment in emergency: submit bills within 30 days"}
+    ],
+    phone:"1800-11-2526",
+    website:"https://www.esic.in"
+  },
+];
+
+const CITY_COORDS = {
+  "mumbai":{lat:19.08,lng:72.88},"delhi":{lat:28.61,lng:77.21},
+  "bangalore":{lat:12.97,lng:77.59},"bengaluru":{lat:12.97,lng:77.59},
+  "chennai":{lat:13.07,lng:80.27},"hyderabad":{lat:17.39,lng:78.49},
+  "kolkata":{lat:22.57,lng:88.36},"nagpur":{lat:21.15,lng:79.09},
+  "jaipur":{lat:26.91,lng:75.79},"vellore":{lat:12.93,lng:79.13}
+};
+
+// ─── STATE ──────────────────────────────────────────────
+let state = {
+  step: 0,
+  name: '', location: '', symptom: '', budget: null, age: null, comorbidities: [],
+  confirmed: false,
+  lang: 'en',
+  currentData: null,
+  queryHistory: []
+};
+
+const TOTAL_STEPS = 6;
+const STEPS = ['Name','Location','Symptom','Budget','Age','Conditions'];
+
+const LANGS = {
+  en: {
+    greet: "Hi 👋 I'm <b>JeevanCare</b>, your intelligent healthcare assistant.\n\nI can help you:\n✔ Find the right hospital\n✔ Estimate treatment costs\n✔ Understand insurance options\n\nLet's start with a few details.",
+    askName: "What should I call you? 😊",
+    askLocation: "Which <b>city</b> are you looking for treatment in?\n<i>(e.g. Mumbai, Delhi, Chennai, Nagpur...)</i>",
+    askSymptom: "What <b>health concern or symptom</b> are you experiencing?\n<i>(e.g. chest pain, knee pain, kidney stone, cataract...)</i>",
+    askBudget: "Do you have a <b>budget range</b> in mind? <i>(Optional — type 'skip' to continue)</i>\n<i>(e.g. 2 lakh, ₹3,00,000)</i>",
+    askAge: "Can you share your <b>age</b>? This helps improve accuracy.",
+    askComorb: "Do you have any <b>existing conditions</b>?\n<i>(e.g. diabetes, BP, heart disease — type 'none' if not)</i>",
+    confirm: (d) => `Thanks! Here's what I understood:\n\n📍 <b>Location:</b> ${d.location||'—'}\n🩺 <b>Concern:</b> ${d.symptom||'—'}\n💰 <b>Budget:</b> ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'Not specified'}\n🎂 <b>Age:</b> ${d.age||'—'}\n⚠️ <b>Conditions:</b> ${d.comorbidities.length ? d.comorbidities.join(', ') : 'None'}\n\nIs this correct?`,
+    processing: "Analyzing your inputs and finding the best options for you... ⏳",
+    chips: ["Chest pain Mumbai","Knee pain Chennai ₹2L","Kidney stone Delhi","Cataract Jaipur","Cancer Bangalore"]
+  },
+  hi: {
+    greet: "नमस्ते 👋 मैं <b>JeevanCare</b> हूँ, आपका AI स्वास्थ्य सहायक।\n\nमैं इसमें मदद कर सकता हूँ:\n✔ सही अस्पताल खोजना\n✔ उपचार लागत अनुमान\n✔ बीमा जानकारी\n\nकुछ जानकारी दें।",
+    askName: "आपका नाम क्या है? 😊",
+    askLocation: "आप किस <b>शहर</b> में इलाज करवाना चाहते हैं?",
+    askSymptom: "आपको क्या <b>स्वास्थ्य समस्या</b> है?\n<i>(जैसे: सीने में दर्द, घुटना, पथरी...)</i>",
+    askBudget: "आपका <b>बजट</b> कितना है? <i>(वैकल्पिक — 'skip' टाइप करें)</i>",
+    askAge: "आपकी <b>उम्र</b> क्या है?",
+    askComorb: "क्या आपको कोई <b>बीमारी</b> पहले से है?\n<i>(जैसे मधुमेह, BP — नहीं है तो 'none' लिखें)</i>",
+    confirm: (d) => `ठीक है! मैंने समझा:\n\n📍 <b>शहर:</b> ${d.location||'—'}\n🩺 <b>समस्या:</b> ${d.symptom||'—'}\n💰 <b>बजट:</b> ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'नहीं बताया'}\n🎂 <b>उम्र:</b> ${d.age||'—'}\n⚠️ <b>बीमारी:</b> ${d.comorbidities.length ? d.comorbidities.join(', ') : 'कोई नहीं'}\n\nक्या यह सही है?`,
+    processing: "आपके इनपुट विश्लेषण हो रहे हैं... ⏳",
+    chips: ["सीने में दर्द मुंबई","घुटना दिल्ली 2 लाख","पथरी नागपुर 1 लाख","मोतियाबिंद जयपुर"]
+  },
+  ta: {
+    greet: "வணக்கம் 👋 நான் <b>JeevanCare</b>, உங்கள் AI சுகாதார உதவியாளர்.",
+    askName: "உங்கள் பெயர் என்ன? 😊",
+    askLocation: "எந்த <b>நகரத்தில்</b> சிகிச்சை பெற விரும்புகிறீர்கள்?",
+    askSymptom: "உங்களுக்கு என்ன <b>உடல் பிரச்னை</b>?\n<i>(எ.கா: இதய வலி, மூட்டு வலி, சிறுநீரக கல்...)</i>",
+    askBudget: "உங்கள் <b>பட்ஜெட்</b> என்ன? <i>(விரும்பினால் 'skip' என்று தட்டச்சு செய்யவும்)</i>",
+    askAge: "உங்கள் <b>வயது</b> என்ன?",
+    askComorb: "ஏதாவது <b>முன்பே உள்ள நோய்</b> உள்ளதா?\n<i>(இல்லையெனில் 'none' என்று தட்டச்சு செய்யவும்)</i>",
+    confirm: (d) => `நன்று! நான் புரிந்தது:\n\n📍 நகரம்: ${d.location||'—'}\n🩺 பிரச்னை: ${d.symptom||'—'}\n💰 பட்ஜெட்: ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'குறிப்பிடவில்லை'}\n🎂 வயது: ${d.age||'—'}\n\nசரியா?`,
+    processing: "தகவல்களை பகுப்பாய்வு செய்கிறோம்... ⏳",
+    chips: ["மூட்டு வலி சென்னை","இதய வலி மும்பை","சிறுநீரக கல் 1 லட்சம்","கண்புரை சென்னை"]
+  },
+  te: {
+    greet: "నమస్కారం 👋 నేను <b>JeevanCare</b>, మీ AI ఆరోగ్య సహాయకుడు.",
+    askName: "మీ పేరు ఏమిటి? 😊",
+    askLocation: "మీరు చికిత్స కోసం ఏ <b>నగరం</b> చూస్తున్నారు?",
+    askSymptom: "మీకు ఏ <b>ఆరోగ్య సమస్య</b> ఉంది?\n<i>(ఉదా: గుండె నొప్పి, మోకాలి నొప్పి, మూత్రపిండం రాళ్ళు...)</i>",
+    askBudget: "మీ <b>బడ్జెట్</b> ఎంత? <i>(అవసరం లేదు — 'skip' అని టైప్ చేయండి)</i>",
+    askAge: "మీ <b>వయసు</b> ఎంత?",
+    askComorb: "మీకు ముందే ఉన్న <b>వ్యాధులు</b> ఏమైనా ఉన్నాయా?\n<i>(లేదంటే 'none' అని టైప్ చేయండి)</i>",
+    confirm: (d) => `చాలా బాగుంది! నేను అర్థం చేసుకున్నది:\n\n📍 నగరం: ${d.location||'—'}\n🩺 సమస్య: ${d.symptom||'—'}\n💰 బడ్జెట్: ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'తెలియదు'}\n🎂 వయసు: ${d.age||'—'}\n\nసరైనదా?`,
+    processing: "మీ సమాచారాన్ని విశ్లేషిస్తున్నాం... ⏳",
+    chips: ["మోకాలి నొప్పి హైదరాబాద్","గుండె నొప్పి ముంబై","మూత్రపిండం రాళ్ళు","కంటిపొర శస్త్రచికిత్స"]
+  },
+  bn: {
+    greet: "নমস্কার 👋 আমি <b>JeevanCare</b>, আপনার AI স্বাস্থ্য সহকারী।",
+    askName: "আপনার নাম কি? 😊",
+    askLocation: "আপনি কোন <b>শহরে</b> চিকিৎসা নিতে চান?",
+    askSymptom: "আপনার কী <b>স্বাস্থ্য সমস্যা</b> আছে?\n<i>(যেমন: বুকে ব্যথা, হাঁটু ব্যথা, কিডনি পাথর...)</i>",
+    askBudget: "আপনার <b>বাজেট</b> কত? <i>(ঐচ্ছিক — 'skip' টাইপ করুন)</i>",
+    askAge: "আপনার <b>বয়স</b> কত?",
+    askComorb: "আপনার কি আগে থেকে কোনো <b>রোগ</b> আছে?\n<i>(না থাকলে 'none' লিখুন)</i>",
+    confirm: (d) => `ধন্যবাদ! আমি বুঝেছি:\n\n📍 শহর: ${d.location||'—'}\n🩺 সমস্যা: ${d.symptom||'—'}\n💰 বাজেট: ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'বলা হয়নি'}\n🎂 বয়স: ${d.age||'—'}\n\nকি এটা সঠিক?`,
+    processing: "আপনার তথ্য বিশ্লেষণ করা হচ্ছে... ⏳",
+    chips: ["বুকে ব্যথা মুম্বাই","হাঁটু ব্যথা দিল্লি","কিডনি পাথর","চোখের অপারেশন"]
+  },
+  mr: {
+    greet: "नमस्कार 👋 मी <b>JeevanCare</b> आहे, तुमचा AI आरोग्य सहाय्यक.",
+    askName: "मी तुम्हाला काय म्हणू? 😊",
+    askLocation: "तुम्ही कोणत्या <b>शहरात</b> उपचार घेणार आहात?",
+    askSymptom: "तुम्हाला कोणती <b>आरोग्य समस्या</b> आहे?\n<i>(उदा: छातीत दुखणे, गुडघेदुखी, मूत्रपिंडाचा खडा...)</i>",
+    askBudget: "तुमचे <b>बजेट</b> काय आहे? <i>(ऐच्छिक — 'skip' टाइप करा)</i>",
+    askAge: "तुमचे <b>वय</b> किती आहे?",
+    askComorb: "तुम्हाला आधीपासून काही <b>आजार</b> आहेत का?\n<i>(नसल्यास 'none' लिहा)</i>",
+    confirm: (d) => `छान! मला समजले:\n\n📍 शहर: ${d.location||'—'}\n🩺 समस्या: ${d.symptom||'—'}\n💰 बजेट: ${d.budget ? '₹'+d.budget.toLocaleString('en-IN') : 'सांगितले नाही'}\n🎂 वय: ${d.age||'—'}\n\nहे बरोबर आहे का?`,
+    processing: "तुमचे तपशील विश्लेषण होत आहेत... ⏳",
+    chips: ["छातीत दुखणे मुंबई","गुडघा शस्त्रक्रिया पुणे","मूत्रपिंड खडा नागपूर","मोतीबिंदू जयपूर"]
+  }
+};
+
+const QUICK_SYMPTOMS = [
+  {icon:"❤️",name:"Chest Pain"},
+  {icon:"🦵",name:"Knee Pain"},
+  {icon:"🫘",name:"Kidney Stone"},
+  {icon:"👁️",name:"Cataract"},
+  {icon:"🦴",name:"Back Pain"},
+  {icon:"🤰",name:"Pregnancy"},
+  {icon:"🧠",name:"Brain Tumor"},
+  {icon:"🫀",name:"Gallbladder"},
+  {icon:"🔴",name:"Cancer"},
+];
+
+// ─── INIT ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildProgressDots();
+  initChat();
+  buildSymptomGrid();
+  buildInsuranceWorkflow();
+  buildEligibilityChecker();
+  startFunFacts();
+  document.getElementById('resultsPanel').addEventListener('scroll', toggleScrollBtn);
+});
+
+function buildProgressDots() {
+  const el = document.getElementById('progressSteps');
+  el.innerHTML = '';
+  for (let i = 0; i < TOTAL_STEPS; i++) {
+    const d = document.createElement('div');
+    d.className = 'step-dot';
+    d.id = `step-dot-${i}`;
+    el.appendChild(d);
+  }
+}
+
+function updateProgress(step) {
+  for (let i = 0; i < TOTAL_STEPS; i++) {
+    const d = document.getElementById(`step-dot-${i}`);
+    if (i < step) d.className = 'step-dot done';
+    else if (i === step) d.className = 'step-dot active';
+    else d.className = 'step-dot';
+  }
+  document.getElementById('stepLabelBar').textContent = step < TOTAL_STEPS ? `Step ${step+1} of ${TOTAL_STEPS}: ${STEPS[step]}` : 'All steps complete!';
+}
+
+function initChat() {
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML = '';
+  state = {step:0, name:'', location:'', symptom:'', budget:null, age:null, comorbidities:[], confirmed:false, lang:state.lang||'en', currentData:null, queryHistory:state.queryHistory||[]};
+  updateProgress(0);
+  const L = LANGS[state.lang];
+  addBotMsg(L.greet);
+  setTimeout(() => { addBotMsg(L.askName); showChips([]); }, 700);
+}
+
+function setLang(lang, btn) {
+  state.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  initChat();
+}
+
+function addBotMsg(html) {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message bot';
+  d.innerHTML = `<div class="msg-avatar">🤖</div><div><div class="msg-bubble">${html.replace(/\n/g,'<br>')}</div><div class="msg-time">${getTime()}</div></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message user';
+  d.innerHTML = `<div class="msg-avatar">👤</div><div><div class="msg-bubble">${esc(text)}</div><div class="msg-time">${getTime()}</div></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message bot';
+  d.id = 'typingMsg';
+  d.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typingMsg');
+  if (t) t.remove();
+}
+
+function showChips(chips) {
+  const el = document.getElementById('quickChips');
+  if (!chips.length) { el.innerHTML = ''; return; }
+  el.innerHTML = chips.map(c => `<button class="chip" onclick="useChip('${c}')">${c}</button>`).join('');
+}
+
+function useChip(text) {
+  document.getElementById('chatInput').value = text;
+  handleSend();
+}
+
+function getTime() {
+  return new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+}
+
+function esc(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
+}
+
+// ─── ONBOARDING FLOW ──────────────────────────────────────────────
+function handleSend() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMsg(text);
+  showChips([]);
+
+  if (state.confirmed) {
+    // Direct query mode
+    processDirectQuery(text);
+    return;
+  }
+
+  processStep(text);
+}
+
+function processStep(text) {
+  const L = LANGS[state.lang];
+  const lower = text.toLowerCase().trim();
+
+  switch(state.step) {
+    case 0: // Name
+      state.name = text === 'skip' ? 'Friend' : text.split(' ')[0];
+      state.step = 1;
+      updateProgress(1);
+      setTimeout(() => addBotMsg(L.askLocation), 400);
+      showChips(['Mumbai','Delhi','Bangalore','Chennai','Hyderabad','Nagpur','Jaipur','Kolkata']);
+      break;
+
+    case 1: // Location
+      const loc = extractLocation(lower);
+      if (!loc) { addBotMsg("I couldn't find that city. Please type a major Indian city name like Mumbai, Delhi, Chennai, etc."); return; }
+      state.location = loc;
+      state.step = 2;
+      updateProgress(2);
+      setTimeout(() => addBotMsg(L.askSymptom), 400);
+      showChips(['chest pain','knee pain','kidney stone','cataract','back pain','cancer','pregnancy']);
+      break;
+
+    case 2: // Symptom
+      state.symptom = text;
+      state.step = 3;
+      updateProgress(3);
+      setTimeout(() => addBotMsg(L.askBudget), 400);
+      showChips(['1 lakh','2 lakh','3 lakh','5 lakh','10 lakh','skip']);
+      break;
+
+    case 3: // Budget
+      if (lower !== 'skip' && lower !== 'no' && lower !== 'nahi') {
+        state.budget = extractBudget(lower);
+      }
+      state.step = 4;
+      updateProgress(4);
+      setTimeout(() => addBotMsg(L.askAge), 400);
+      showChips(['25','35','45','55','65','75']);
+      break;
+
+    case 4: // Age
+      const age = parseInt(text);
+      if (!isNaN(age) && age > 0 && age < 120) state.age = age;
+      state.step = 5;
+      updateProgress(5);
+      setTimeout(() => addBotMsg(L.askComorb), 400);
+      showChips(['diabetes','hypertension','heart disease','none']);
+      break;
+
+    case 5: // Comorbidities
+      if (lower !== 'none' && lower !== 'no' && lower !== 'nahi' && lower !== 'koi nahi') {
+        state.comorbidities = text.split(/,|and|&/).map(s => s.trim()).filter(Boolean);
+      }
+      state.step = 6;
+      updateProgress(6);
+      setTimeout(() => {
+        addBotMsg(L.confirm(state));
+        showChips(['✅ Yes, correct','✏️ Edit']);
+      }, 400);
+      break;
+
+    case 6: // Confirm
+      if (lower.includes('yes') || lower.includes('correct') || lower.includes('haan') || lower.includes('ha ') || lower.includes('✅')) {
+        state.confirmed = true;
+        addBotMsg(L.processing);
+        setTimeout(() => runAnalysis(), 600);
+      } else {
+        state.step = 0;
+        updateProgress(0);
+        addBotMsg("No problem! Let's start again. " + L.askName);
+      }
+      break;
+  }
+}
+
+function processDirectQuery(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes('cheapest') || lower.includes('budget hospital') || lower.includes('government')) {
+    showCheapest();
+    addBotMsg("Here are the most affordable options sorted by cost. Government hospitals are highlighted. 👇");
+    showTab('hospitals', document.querySelector('.tab-btn'));
+    return;
+  }
+  if (lower.includes('compare')) {
+    showCompare();
+    return;
+  }
+  if (lower.includes('insurance') || lower.includes('pmjay') || lower.includes('ayushman')) {
+    showTab('insurance', document.querySelectorAll('.tab-btn')[3]);
+    addBotMsg("Here's your insurance information. Check the Insurance tab for detailed scheme comparison and claim workflow. 🛡️");
+    return;
+  }
+  if (lower.includes('cost') || lower.includes('price') || lower.includes('fees')) {
+    showTab('costs', document.querySelectorAll('.tab-btn')[1]);
+    addBotMsg("Here's the detailed cost breakdown for your procedure. 💰");
+    return;
+  }
+  // New symptom search
+  const newQuery = `${text} ${state.location}`;
+  const loc = extractLocation(lower) || state.location;
+  const budget = extractBudget(lower) || state.budget;
+  state.location = loc;
+  state.budget = budget;
+  state.symptom = text;
+  runAnalysis();
+}
+
+// ─── ANALYSIS ENGINE ──────────────────────────────────────────────
+function runAnalysis() {
+  showLoading();
+  setTimeout(() => {
+    const result = computeResults();
+    hideLoading();
+    if (result) {
+      state.currentData = result;
+      state.queryHistory.unshift({symptom:state.symptom, location:state.location, time:new Date().toLocaleTimeString('en-IN'), condition:result.condition});
+      if (state.queryHistory.length > 5) state.queryHistory.pop();
+      renderAll(result);
+    } else {
+      addBotMsg("🤔 I couldn't identify a specific condition. Please be more specific — e.g. 'chest pain Mumbai ₹3 lakh', 'knee replacement Delhi', 'kidney stone Nagpur'.");
+    }
+  }, 2200);
+}
+
+function computeResults() {
+  const query = state.symptom.toLowerCase();
+
+  // Match symptom
+  let condition = null, procIds = [], urgency = 'medium', icon = '🩺';
+  for (const [kw, data] of Object.entries(SYMPTOM_MAP)) {
+    if (query.includes(kw)) {
+      condition = data.condition;
+      procIds = data.proc_ids;
+      urgency = data.urgency;
+      icon = data.icon;
+      if (['emergency','high'].includes(data.urgency)) break;
+    }
+  }
+  if (!condition) {
+    for (const proc of PROCEDURES_DB) {
+      for (const kw of proc.keywords) {
+        if (query.includes(kw)) {
+          condition = `Requires ${proc.name}`;
+          procIds = [proc.id];
+          break;
+        }
+      }
+      if (procIds.length) break;
+    }
+  }
+  if (!condition) return null;
+
+  const procedure = PROCEDURES_DB.find(p => p.id === procIds[0]);
+  if (!procedure) return null;
+
+  // Filter hospitals by city, fallback to all
+  const city = state.location.toLowerCase();
+  let pool = HOSPITALS_DB.filter(h => h.city.toLowerCase() === city);
+  if (pool.length < 3) {
+    pool = [...pool, ...HOSPITALS_DB.filter(h => h.city.toLowerCase() !== city)];
+  }
+  pool = pool.slice(0, 12);
+
+  // Score & rank
+  const ranked = pool.map(h => {
+    const mult = CITY_MULT[h.city.toLowerCase()] || 1;
+    const riskFactor = 1 + 0.08 * state.comorbidities.length;
+    const ageFactor = 1 + 0.01 * Math.max(0, (state.age||45) - 40);
+    const totalMin = Math.round(procedure.min * mult * riskFactor * ageFactor);
+    const totalMax = Math.round(procedure.max * mult * riskFactor * ageFactor);
+    const budgetFit = state.budget ? (state.budget >= totalMin ? 1 : Math.max(0.1, 1-(totalMin-state.budget)/state.budget)) : 0.7;
+    const hasSpec = h.specializations.includes('All Specialties') || h.specializations.some(s => s.toLowerCase().includes(procedure.spec.toLowerCase().split(' ')[0].toLowerCase()));
+    const clinScore = hasSpec ? 1.0 : 0.5;
+    const nearby = h.city.toLowerCase() === city ? 1.0 : 0.3;
+    const score = 0.40*clinScore + 0.30*budgetFit + 0.20*(h.rating/5) + 0.10*nearby;
+    return { ...h, score:Math.round(score*100)/100, cost:{min:totalMin, max:totalMax, fmin:fmt(totalMin), fmax:fmt(totalMax)}, clinScore, budgetFit };
+  }).sort((a,b) => b.score-a.score).slice(0,5);
+
+  // Overall cost
+  const cityMult = CITY_MULT[city] || 1.0;
+  const rf = 1 + 0.08 * state.comorbidities.length;
+  const af = 1 + 0.01 * Math.max(0, (state.age||45)-40);
+  const totalMin = Math.round(procedure.min * cityMult * rf * af);
+  const totalMax = Math.round(procedure.max * cityMult * rf * af);
+
+  // Confidence
+  let confScore = 0;
+  if (condition) confScore += 0.30;
+  if (state.location) confScore += 0.25;
+  if (state.budget) confScore += 0.20;
+  if (ranked.length >= 3) confScore += 0.15;
+  confScore += 0.10; // cost data
+
+  // Market fairness
+  const marketAvg = Math.round((procedure.min + procedure.max)/2 * cityMult);
+  const diffPct = Math.round(((totalMin - marketAvg) / marketAvg) * 100);
+
+  return {
+    condition, icon, urgency, procedure,
+    hospitals: ranked,
+    cost: { min:totalMin, max:totalMax, fmin:fmt(totalMin), fmax:fmt(totalMax),
+      breakdown: {
+        procedure: Math.round(procedure.min*0.55*cityMult),
+        hospitalStay: Math.round(procedure.min*0.20*cityMult),
+        diagnostics: Math.round(procedure.min*0.10*cityMult),
+        medicines: Math.round(procedure.min*0.08*cityMult),
+        nursing: Math.round(procedure.min*0.05*cityMult),
+        contingency: Math.round(procedure.min*0.02*cityMult),
+      }
+    },
+    confidence: { score: Math.round(confScore*100), level: confScore>=0.7?'High':confScore>=0.45?'Medium':'Low' },
+    fairness: { diffPct, status: diffPct<=-15?'🟢 Great Value':diffPct<=5?'🟢 Fair':diffPct<=20?'🟡 Slightly High':'🔴 Premium', marketAvg },
+    insurance: INSURANCE_FULL.filter(i => i.coverage >= totalMin*0.5),
+    journey: generateJourney(procedure, totalMin),
+  };
+}
+
+function fmt(n) {
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+
+function generateJourney(proc, baseMin) {
+  const days = proc.days;
+  return [
+    {day:'Before Admission',title:'Consultation & Tests',activities:['Specialist consultation','Blood tests, ECG, Imaging','Pre-operative fitness clearance'],cost:Math.round(baseMin*0.05),icon:'🩺'},
+    {day:'Day 1',title:'Hospital Admission',activities:['Admission & registration','Pre-surgery preparation','Anaesthesia evaluation'],cost:Math.round(baseMin*0.08),icon:'🏥'},
+    {day:`Day 2–${Math.max(2,days-2)}`,title:`${proc.name}`,activities:['Main procedure performed','Operation theatre charges','Surgeon & anaesthetist fees'],cost:Math.round(baseMin*0.55),icon:'⚕️'},
+    {day:`Day ${Math.max(3,days-1)}–${days}`,title:'Recovery & Monitoring',activities:['ICU/Ward recovery','Medicines & nursing care','Post-op monitoring'],cost:Math.round(baseMin*0.20),icon:'💊'},
+    {day:'Discharge',title:'Discharge & Follow-up',activities:['Discharge summary','Follow-up appointments','Home medicines (30 days)'],cost:Math.round(baseMin*0.12),icon:'🏠'},
+  ];
+}
+
+// ─── RENDER ──────────────────────────────────────────────
+function renderAll(data) {
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('resultsContent').style.display = 'block';
+
+  renderUserSummary();
+  renderUrgency(data.urgency);
+  renderCondition(data);
+  renderHospitals(data.hospitals, data.condition);
+  renderCosts(data.cost, data.procedure);
+  renderFairness(data.fairness, data.cost.min);
+  renderCostHistory(data.procedure);
+  renderJourney(data.journey);
+  renderInsurance(data.insurance);
+  renderConfidence(data.confidence);
+  renderRisk();
+  renderHistory();
+  showTab('hospitals', document.querySelector('.tab-btn'));
+
+  // Bot message
+  const top = data.hospitals[0];
+  const L = LANGS[state.lang];
+  addBotMsg(`✅ Found <b>${data.hospitals.length} hospitals</b> for <b>${data.condition}</b> in <b>${state.location}</b>.<br>Top pick: <b>${top.name}</b> (Score: ${Math.round(top.score*100)}%)<br>💰 Cost range: <b>${data.cost.fmin} – ${data.cost.fmax}</b><br>📊 Confidence: <b>${data.confidence.score}%</b> (${data.confidence.level})<br><br>Use tabs above to explore hospitals, costs, insurance & more.`);
+}
+
+function renderUserSummary() {
+  document.getElementById('userSummaryBar').innerHTML = `
+    <div class="user-summary-title">👤 ${state.name ? state.name + "'s" : "Your"} Healthcare Summary</div>
+    <div class="user-summary-grid">
+      <div class="user-summary-item"><div class="user-summary-label">📍 Location</div><div class="user-summary-val">${state.location||'—'}</div></div>
+      <div class="user-summary-item"><div class="user-summary-label">🩺 Concern</div><div class="user-summary-val">${state.symptom||'—'}</div></div>
+      <div class="user-summary-item"><div class="user-summary-label">💰 Budget</div><div class="user-summary-val">${state.budget ? fmt(state.budget) : 'Not set'}</div></div>
+      <div class="user-summary-item"><div class="user-summary-label">🎂 Age</div><div class="user-summary-val">${state.age||'—'}</div></div>
+    </div>`;
+}
+
+function renderUrgency(urgency) {
+  const map = {
+    emergency: {cls:'urgency-emergency', text:'🚨 EMERGENCY: Call 112 immediately or go to nearest hospital! These results are for planning only.'},
+    high: {cls:'urgency-high', text:'⚠️ This condition requires prompt medical attention. Please consult a doctor soon.'},
+    medium: {cls:'urgency-medium', text:'📋 Semi-urgent procedure. You can plan and compare, but do consult a doctor within a few days.'},
+    low: {cls:'urgency-low', text:'✅ Routine procedure — you have time to plan, compare options, and make an informed decision.'},
+  };
+  const u = map[urgency] || map.medium;
+  document.getElementById('urgencyBanner').innerHTML = `<div class="urgency-banner ${u.cls}">${u.text}</div>`;
+}
+
+function renderCondition(data) {
+  const tags = [];
+  if (data.urgency === 'emergency') tags.push(`<span class="tag tag-danger">🚨 Emergency</span>`);
+  if (data.urgency === 'high') tags.push(`<span class="tag tag-danger">⚠️ Urgent</span>`);
+  tags.push(`<span class="tag tag-teal">${data.procedure.spec}</span>`);
+  tags.push(`<span class="tag tag-navy">⏱️ ${data.procedure.days} day${data.procedure.days>1?'s':''} stay</span>`);
+
+  document.getElementById('conditionHeader').innerHTML = `
+    <div class="condition-icon-box">${data.icon}</div>
+    <div>
+      <div class="condition-name">${data.condition}</div>
+      <div class="condition-proc">Recommended: <b>${data.procedure.name}</b></div>
+      <div class="condition-proc" style="margin-top:3px;font-size:0.73rem;color:var(--text-muted)">${data.procedure.desc}</div>
+      <div>${tags.join('')}</div>
+    </div>`;
+}
+
+function renderHospitals(hospitals, condition) {
+  const el = document.getElementById('hospitalsList');
+  el.innerHTML = hospitals.map((h, i) => {
+    const isTop = i === 0;
+    const tagHtml = buildHospTags(h, i).map(t => `<span class="tag tag-${t.c}">${t.l}</span>`).join('');
+    return `
+      <div class="hospital-card ${isTop?'top-pick':''}" onclick="toggleHospDetail(${h.id})">
+        ${isTop ? '<div class="top-pick-badge">⭐ TOP PICK</div>' : ''}
+        <div class="hosp-header">
+          <div>
+            <div class="hosp-name">${h.name}</div>
+            <div class="hosp-meta">📍 ${h.city}, ${h.state} &nbsp;|&nbsp; ${h.type==='government'?'🏛️ Govt':'🏢 Private'} &nbsp;|&nbsp; Est. ${h.established}</div>
+          </div>
+          <div class="hosp-rating">⭐ ${h.rating} <span style="color:var(--text-muted);font-weight:400">(${h.reviews.toLocaleString('en-IN')})</span></div>
+        </div>
+        <div class="hosp-details">
+          <div class="hosp-detail-item"><div class="hosp-detail-label">Estimated Cost</div><div class="hosp-detail-val hosp-cost">${h.cost.fmin} – ${h.cost.fmax}</div></div>
+          <div class="hosp-detail-item"><div class="hosp-detail-label">Accreditation</div><div class="hosp-detail-val">${h.accreditation}</div></div>
+          <div class="hosp-detail-item"><div class="hosp-detail-label">Beds</div><div class="hosp-detail-val">${h.beds}</div></div>
+          <div class="hosp-detail-item"><div class="hosp-detail-label">Match Score</div><div class="hosp-detail-val">${Math.round(h.score*100)}%</div></div>
+        </div>
+        <div class="hosp-tags">${tagHtml}</div>
+        <div class="hosp-actions" id="hosp-actions-${h.id}">
+          <button class="hosp-btn primary" onclick="event.stopPropagation();openContact(${h.id})">📞 Contact</button>
+          <a class="hosp-btn" href="${h.website}" target="_blank" onclick="event.stopPropagation()">🌐 Website</a>
+          <button class="hosp-btn" onclick="event.stopPropagation();openMaps(${h.id})">🗺️ Directions</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function buildHospTags(h, idx) {
+  const tags = [];
+  if (idx === 0) tags.push({l:'🏆 Best Overall',c:'amber'});
+  if (h.cost_index === 'low') tags.push({l:'💰 Budget Friendly',c:'teal'});
+  if (h.rating >= 4.5) tags.push({l:'⭐ Top Rated',c:'amber'});
+  if (h.type === 'government') tags.push({l:'🏛️ Government',c:'navy'});
+  if (h.accreditation.includes('JCI')) tags.push({l:'🌟 JCI Accredited',c:'teal'});
+  if (h.emergency) tags.push({l:'🚑 24/7 Emergency',c:'navy'});
+  return tags.slice(0,4);
+}
+
+function openContact(id) {
+  const h = HOSPITALS_DB.find(h => h.id === id);
+  if (!h) return;
+  document.getElementById('contactHospName').textContent = h.name;
+  document.getElementById('contactContent').innerHTML = `
+    <div class="contact-item">
+      <div class="contact-icon">📞</div>
+      <div><div class="contact-label">Phone</div><a class="contact-link" href="tel:${h.phone}">${h.phone}</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📧</div>
+      <div><div class="contact-label">Email</div><a class="contact-link" href="mailto:${h.email}">${h.email}</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">🌐</div>
+      <div><div class="contact-label">Website</div><a class="contact-link" href="${h.website}" target="_blank">${h.website.replace('https://','')}</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📍</div>
+      <div><div class="contact-label">Address</div><div class="contact-val" style="font-size:0.8rem;font-weight:500">${h.address}</div></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <a href="tel:${h.phone}" class="ins-btn" style="flex:1;display:block;text-align:center;text-decoration:none">📞 Call Now</a>
+      <a href="${h.website}" target="_blank" class="ins-btn" style="flex:1;display:block;text-align:center;text-decoration:none;background:var(--navy)">🌐 Visit Site</a>
+    </div>`;
+  document.getElementById('contactModal').classList.add('show');
+}
+
+function closeContactModal() {
+  document.getElementById('contactModal').classList.remove('show');
+}
+
+function openMaps(id) {
+  const h = HOSPITALS_DB.find(h => h.id === id);
+  if (h) window.open(`https://maps.google.com/?q=${encodeURIComponent(h.name+' '+h.address)}`, '_blank');
+}
+
+function renderCosts(cost, proc) {
+  const bd = cost.breakdown;
+  document.getElementById('costBreakdownView').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div>
+        <div style="font-size:1.3rem;font-weight:800;color:var(--navy)">${cost.fmin} – ${cost.fmax}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">Estimated range for ${proc.name}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.72rem;color:var(--text-muted)">Stay duration</div>
+        <div style="font-weight:800;color:var(--teal-dark)">${proc.days} day${proc.days>1?'s':''}</div>
+      </div>
+    </div>
+    <div class="cost-breakdown">
+      <div class="cost-row"><span class="cost-label">⚕️ Procedure / Surgery</span><span class="cost-val">${fmt(bd.procedure)}</span></div>
+      <div class="cost-row"><span class="cost-label">🏥 Hospital Stay (Room + ICU)</span><span class="cost-val">${fmt(bd.hospitalStay)}</span></div>
+      <div class="cost-row"><span class="cost-label">🧪 Diagnostics & Tests</span><span class="cost-val">${fmt(bd.diagnostics)}</span></div>
+      <div class="cost-row"><span class="cost-label">💊 Medicines & Consumables</span><span class="cost-val">${fmt(bd.medicines)}</span></div>
+      <div class="cost-row"><span class="cost-label">👩‍⚕️ Nursing & Attendant Charges</span><span class="cost-val">${fmt(bd.nursing)}</span></div>
+      <div class="cost-row"><span class="cost-label">🔄 Contingency Reserve</span><span class="cost-val">${fmt(bd.contingency)}</span></div>
+    </div>
+    <div class="cost-total"><span>📊 Total Estimated Cost</span><span class="cost-total-val">${cost.fmin} – ${cost.fmax}</span></div>
+    ${state.budget ? `<div style="margin-top:10px;padding:10px;background:${state.budget >= cost.min ? 'var(--success-light)' : 'var(--danger-light)'};border-radius:8px;font-size:0.8rem;font-weight:600;color:${state.budget >= cost.min ? '#14532d' : '#991b1b'}">
+      ${state.budget >= cost.min ? '✅ Your budget of '+fmt(state.budget)+' covers this procedure.' : '⚠️ Budget shortfall: '+fmt(cost.min - state.budget)+'. Consider Ayushman Bharat or EMI options.'}
+    </div>` : ''}`;
+}
+
+function renderFairness(fairness, minCost) {
+  const pct = Math.max(0, Math.min(100, 50 + fairness.diffPct));
+  document.getElementById('fairnessView').innerHTML = `
+    <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:6px">
+      <span>Market Average: <b>${fmt(fairness.marketAvg)}</b></span>
+      <span style="font-weight:700">${fairness.status}</span>
+    </div>
+    <div class="fairness-bar">
+      <div class="fairness-marker" style="left:${pct}%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-muted)">
+      <span>Best Value</span><span>Market Rate</span><span>Premium</span>
+    </div>
+    <div style="margin-top:10px;font-size:0.78rem;color:var(--text-mid)">
+      Your estimated cost is <b>${fairness.diffPct > 0 ? '+' : ''}${fairness.diffPct}%</b> compared to market average for this procedure in ${state.location}.
+    </div>`;
+}
+
+function renderCostHistory(proc) {
+  // Simulated historical cost data
+  const years = [2019,2020,2021,2022,2023,2024,2025];
+  const baseMin = proc.min;
+  const cityM = CITY_MULT[state.location?.toLowerCase()] || 1;
+  const rows = years.map(y => {
+    const inflate = 1 + (y - 2019) * 0.05;
+    return `<div class="cost-row"><span class="cost-label">${y}</span><span class="cost-val">${fmt(Math.round(baseMin*cityM*inflate*0.8))} – ${fmt(Math.round(baseMin*cityM*inflate*1.6))}</span></div>`;
+  }).join('');
+  document.getElementById('costHistoryView').innerHTML = `
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:10px">Historical cost trend for <b>${proc.name}</b> in <b>${state.location}</b> (indicative data)</div>
+    <div class="cost-breakdown">${rows}</div>
+    <div style="margin-top:8px;font-size:0.73rem;color:var(--text-muted)">📈 Average annual cost increase: ~5-7% (medical inflation). Data is indicative.</div>`;
+}
+
+function renderJourney(journey) {
+  document.getElementById('journeyTimeline').innerHTML = journey.map((j, i) => `
+    <div class="journey-step">
+      <div class="journey-dot">${i+1}</div>
+      <div>
+        <div class="journey-day">${j.day}</div>
+        <div class="journey-title">${j.icon} ${j.title}</div>
+        <div class="journey-activities">${j.activities.map(a => '• '+a).join('<br>')}</div>
+        <div class="journey-cost">💰 Approx: ${fmt(j.cost)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderInsurance(ins) {
+  document.getElementById('insuranceList').innerHTML = ins.map(i => `
+    <div class="insurance-card">
+      <div class="ins-header">
+        <div class="ins-icon ${i.type==='government'?'ins-govt':'ins-private'}">${i.type==='government'?'🏛️':'🛡️'}</div>
+        <div>
+          <div class="ins-name">${i.name}</div>
+          <div class="ins-type ${i.type==='government'?'ins-govt-tag':'ins-private-tag'}">${i.type==='government'?'🇮🇳 Government Scheme':'🏢 Private Insurance'}</div>
+        </div>
+      </div>
+      <div class="ins-grid">
+        <div class="ins-detail"><div class="ins-detail-label">Max Coverage</div><div class="ins-detail-val">${fmt(i.coverage)}</div></div>
+        <div class="ins-detail"><div class="ins-detail-label">Annual Premium</div><div class="ins-detail-val">${i.premium===0?'<span style="color:var(--success);font-weight:800">FREE</span>':fmt(i.premium)}</div></div>
+        <div class="ins-detail"><div class="ins-detail-label">Helpline</div><div class="ins-detail-val"><a href="tel:${i.phone}" style="color:var(--teal-dark);font-weight:700">${i.phone}</a></div></div>
+        <div class="ins-detail"><div class="ins-detail-label">Type</div><div class="ins-detail-val">${i.type==='government'?'No-cost benefit':'Premium plan'}</div></div>
+      </div>
+      <div class="ins-note">${i.note}</div>
+      <div style="margin-top:8px">
+        <div style="font-size:0.72rem;font-weight:700;color:var(--navy);margin-bottom:6px">Key Benefits:</div>
+        ${i.benefits.slice(0,3).map(b => `<div style="font-size:0.72rem;color:var(--text-mid);margin-bottom:3px">✅ ${b}</div>`).join('')}
+      </div>
+      <button class="ins-btn" onclick="window.open('${i.website}','_blank')">🔗 Apply / Learn More</button>
+    </div>`).join('');
+}
+
+function renderConfidence(conf) {
+  const color = conf.score>=70?'#16a34a':conf.score>=45?'#f59e0b':'#dc2626';
+  document.getElementById('confidenceView').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+      <div style="width:64px;height:64px;border-radius:50%;background:conic-gradient(${color} ${conf.score*3.6}deg, var(--bg) 0deg);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:${color}">${conf.score}%</div>
+      <div><div style="font-size:1rem;font-weight:800;color:${color}">${conf.level} Confidence</div><div style="font-size:0.75rem;color:var(--text-muted)">Based on your inputs</div></div>
+    </div>
+    <div class="confidence-bar-track"><div class="confidence-bar-fill" style="width:${conf.score}%;background:${color}"></div></div>
+    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">
+      ${conf.score>=70 ? '✅ Good match — results are reliable.' : conf.score>=45 ? '⚠️ Medium confidence — provide city, age, and budget for better results.' : '❌ Low confidence — please provide more details.'}
+    </div>`;
+}
+
+function renderRisk() {
+  const comorbStr = state.comorbidities.length ? state.comorbidities.join(', ') : 'None reported';
+  const riskItems = [];
+  if (state.comorbidities.some(c => c.toLowerCase().includes('diab'))) riskItems.push('⚠️ Diabetes increases healing time and complication risk by ~15-20%');
+  if (state.comorbidities.some(c => c.toLowerCase().includes('bp') || c.toLowerCase().includes('hypert'))) riskItems.push('⚠️ Hypertension may require blood pressure management during surgery');
+  if (state.comorbidities.some(c => c.toLowerCase().includes('heart'))) riskItems.push('⚠️ Pre-existing cardiac condition requires cardiac clearance before surgery');
+  if ((state.age||45) > 65) riskItems.push('⚠️ Age >65 increases anaesthesia risk — ensure full pre-op evaluation');
+  if (!riskItems.length) riskItems.push('✅ No significant risk factors identified based on provided information');
+
+  document.getElementById('riskView').innerHTML = `
+    <div style="font-size:0.8rem;color:var(--text-mid);margin-bottom:10px">Existing conditions: <b>${comorbStr}</b> | Age: <b>${state.age||'Not provided'}</b></div>
+    ${riskItems.map(r => `<div style="padding:8px 12px;background:var(--bg);border-radius:8px;font-size:0.8rem;margin-bottom:6px;line-height:1.5">${r}</div>`).join('')}
+    <div style="margin-top:8px;font-size:0.72rem;color:var(--text-muted)">💡 Always consult your doctor for a personalised risk assessment before any procedure.</div>`;
+}
+
+function renderHistory() {
+  const el = document.getElementById('historyView');
+  if (!state.queryHistory.length) { el.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted)">No previous queries yet.</div>'; return; }
+  el.innerHTML = state.queryHistory.map(q => `
+    <div class="history-item">
+      <div class="history-item-title">${q.condition}</div>
+      <div class="history-item-meta">🩺 ${q.symptom} &nbsp;|&nbsp; 📍 ${q.location} &nbsp;|&nbsp; 🕐 ${q.time}</div>
+    </div>`).join('');
+}
+
+function buildSymptomGrid() {
+  document.getElementById('symptomGrid').innerHTML = QUICK_SYMPTOMS.map(s => `
+    <div class="symptom-tile" onclick="quickSymptomSearch('${s.name}')">
+      <span class="symptom-tile-icon">${s.icon}</span>
+      <span>${s.name}</span>
+    </div>`).join('');
+}
+
+function quickSymptomSearch(name) {
+  document.getElementById('chatInput').value = `${name} ${state.location || ''}`;
+  if (state.confirmed) {
+    handleSend();
+  } else {
+    state.symptom = name;
+    state.step = Math.max(state.step, 3);
+    addBotMsg(`Got it — searching for <b>${name}</b> in <b>${state.location || 'your location'}</b>...`);
+    if (!state.location) {
+      addBotMsg("Please tell me your city first.");
+      state.step = 1;
+    } else {
+      runAnalysis();
+    }
+    document.getElementById('chatInput').value = '';
+  }
+}
+
+function buildInsuranceWorkflow() {
+  document.getElementById('insuranceWorkflow').innerHTML = `
+    <div style="margin-bottom:10px;font-size:0.8rem;color:var(--text-mid)">Step-by-step process to claim health insurance in India:</div>
+    <div class="workflow-steps">
+      ${[
+        {n:1,t:'Pre-Hospitalisation',d:'<strong>Check cashless facility</strong> — call your insurer or check their app for network hospitals. Pre-auth is needed for planned surgeries (submit 72 hours before).'},
+        {n:2,t:'Pre-Authorisation',d:'The hospital TPA desk sends a <strong>pre-auth request</strong> to your insurer with estimated cost. Approval usually comes within 4-6 hours for planned, 30 min for emergency.'},
+        {n:3,t:'Admission & Treatment',d:'Carry your <strong>insurance card, Aadhar, and policy number</strong>. For cashless: hospital bills insurer directly. You only pay deductibles/exclusions.'},
+        {n:4,t:'Document Collection',d:'Collect all <strong>original bills, prescriptions, discharge summary, lab reports</strong> from hospital. Keep photocopies. These are essential for claim settlement.'},
+        {n:5,t:'Claim Submission',d:'Submit filled <strong>claim form + documents</strong> to TPA/insurer within 30 days of discharge. For cashless, insurer settles with hospital at discharge.'},
+        {n:6,t:'Reimbursement',d:'For non-network/emergency cashless failure: submit to insurer. Settlement within <strong>15-30 working days</strong>. For disputes, approach IRDAI Grievance Cell.'},
+      ].map(s => `<div class="workflow-step"><div class="workflow-num">${s.n}</div><div class="workflow-text"><strong>${s.t}:</strong> ${s.d}</div></div>`).join('')}
+    </div>
+    <div style="margin-top:12px;padding:10px;background:var(--amber-light);border-radius:8px;font-size:0.75rem;color:#92400e">
+      💡 <b>Tip:</b> Always carry a physical and digital copy of your policy card. Take photos of all hospital bills before submitting. Call IRDAI helpline <b>155255</b> for disputes.
+    </div>`;
+}
+
+function buildEligibilityChecker() {
+  let answers = {};
+  document.getElementById('eligibilityChecker').innerHTML = `
+    <div style="font-size:0.82rem;color:var(--text-mid);margin-bottom:12px">Answer a few questions to check which schemes you may be eligible for:</div>
+    <div class="eligibility-check">
+      <div class="eligibility-question">1. Is your family income below ₹2.5 lakh/year?</div>
+      <div class="eligibility-options">
+        <button class="eligibility-opt" id="q1y" onclick="setEligAns('income','yes','q1y','q1n')">Yes</button>
+        <button class="eligibility-opt" id="q1n" onclick="setEligAns('income','no','q1n','q1y')">No</button>
+      </div>
+    </div>
+    <div class="eligibility-check">
+      <div class="eligibility-question">2. Are you a salaried employee (earning ≤ ₹21,000/month)?</div>
+      <div class="eligibility-options">
+        <button class="eligibility-opt" id="q2y" onclick="setEligAns('salaried','yes','q2y','q2n')">Yes</button>
+        <button class="eligibility-opt" id="q2n" onclick="setEligAns('salaried','no','q2n','q2y')">No</button>
+      </div>
+    </div>
+    <div class="eligibility-check">
+      <div class="eligibility-question">3. Do you have an Aadhaar card / ration card?</div>
+      <div class="eligibility-options">
+        <button class="eligibility-opt" id="q3y" onclick="setEligAns('aadhaar','yes','q3y','q3n')">Yes</button>
+        <button class="eligibility-opt" id="q3n" onclick="setEligAns('aadhaar','no','q3n','q3y')">No</button>
+      </div>
+    </div>
+    <button class="scheme-expand-btn" onclick="checkEligibility()">✅ Check My Eligibility</button>
+    <div class="eligibility-result" id="eligResult"></div>`;
+  window._eligAnswers = {};
+}
+
+window.setEligAns = function(q, val, btn1, btn2) {
+  window._eligAnswers[q] = val;
+  document.getElementById(btn1).classList.add('selected');
+  document.getElementById(btn2).classList.remove('selected');
+};
+
+window.checkEligibility = function() {
+  const a = window._eligAnswers || {};
+  const el = document.getElementById('eligResult');
+  const results = [];
+  if (a.income === 'yes' && a.aadhaar === 'yes') results.push('<b>✅ Ayushman Bharat PM-JAY</b> — Likely eligible (income below threshold, Aadhaar present). Visit nearest CSC to verify and get your card.');
+  if (a.salaried === 'yes') results.push('<b>✅ ESIC</b> — Eligible if employed in registered establishment earning ≤ ₹21,000/month. Ask HR to register you.');
+  results.push('<b>✅ National Mediclaim / Private Insurance</b> — Open to any Indian citizen 18-65. Compare plans on PolicyBazaar or visit bank branch.');
+  if (!results.length) results.push('Based on your inputs, standard private insurance plans are recommended. Consider Star Health or HDFC ERGO.');
+
+  el.className = 'eligibility-result show elig-eligible';
+  el.innerHTML = `<div style="font-weight:700;margin-bottom:8px">📋 Your Eligibility Results:</div>${results.map(r => `<div style="margin-bottom:8px;line-height:1.6">${r}</div>`).join('')}<div style="margin-top:8px;font-size:0.72rem">⚠️ This is indicative only. Verify eligibility at official government portals.</div>`;
+};
+
+// ─── TABS ──────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ─── COMPARE ──────────────────────────────────────────────
+function showCompare() {
+  const data = state.currentData;
+  if (!data) return;
+  const h = data.hospitals;
+  const fields = ['Rating','Beds','Cost Min','Cost Max','Type','Accreditation'];
+  let html = `<tr><th>Hospital</th>${fields.map(f => `<th>${f}</th>`).join('')}</tr>`;
+  html += h.map(hosp => `<tr>
+    <td><b>${hosp.name}</b><br><span style="font-size:0.7rem;color:var(--text-muted)">${hosp.city}</span></td>
+    <td>⭐ ${hosp.rating}</td>
+    <td>${hosp.beds}</td>
+    <td>${hosp.cost.fmin}</td>
+    <td>${hosp.cost.fmax}</td>
+    <td>${hosp.type}</td>
+    <td>${hosp.accreditation}</td>
+  </tr>`).join('');
+  document.getElementById('compareTableBody').innerHTML = html;
+  document.getElementById('compareModal').classList.add('show');
+}
+
+function showCheapest() {
+  const data = state.currentData;
+  if (!data) return;
+  const sorted = [...data.hospitals].sort((a,b) => a.cost.min - b.cost.min);
+  renderHospitals(sorted, data.condition);
+  addBotMsg(`Showing hospitals sorted by <b>lowest cost</b>. Government hospitals offer the best value. 💰`);
+}
+
+// ─── LOADING ──────────────────────────────────────────────
+const loadingMsgs = [
+  ["🔍 Analyzing your query...","Scanning hospital database"],
+  ["🧠 Mapping symptoms to conditions...","Clinical NLP engine active"],
+  ["🏥 Ranking hospitals...","Applying multi-factor scoring"],
+  ["💰 Calculating cost estimates...","Adjusting for city & risk factors"],
+  ["📊 Computing confidence score...","Almost ready!"]
+];
+let loadInterval;
+
+function showLoading() {
+  const ov = document.getElementById('loadingOverlay');
+  ov.classList.add('show');
+  let idx = 0;
+  document.getElementById('loadingText').textContent = loadingMsgs[0][0];
+  document.getElementById('loadingSub').textContent = loadingMsgs[0][1];
+  loadInterval = setInterval(() => {
+    idx = (idx+1) % loadingMsgs.length;
+    document.getElementById('loadingText').textContent = loadingMsgs[idx][0];
+    document.getElementById('loadingSub').textContent = loadingMsgs[idx][1];
+  }, 440);
+}
+
+function hideLoading() {
+  clearInterval(loadInterval);
+  document.getElementById('loadingOverlay').classList.remove('show');
+}
+
+// ─── NLP UTILS ──────────────────────────────────────────────
+function extractBudget(text) {
+  const lm = text.match(/(\d+(?:\.\d+)?)\s*(?:lakh|lac|लाख|லட்சம்|లక్ష)/i);
+  if (lm) return Math.round(parseFloat(lm[1]) * 100000);
+  const cm = text.match(/(\d+(?:\.\d+)?)\s*(?:crore|cr|करोड़)/i);
+  if (cm) return Math.round(parseFloat(cm[1]) * 10000000);
+  const nm = text.match(/(?:rs\.?|₹|inr)?\s*(\d[\d,]+)/i);
+  if (nm) return parseInt(nm[1].replace(/,/g,''));
+  return null;
+}
+
+function extractLocation(text) {
+  const cities = Object.keys(CITY_MULT).concat(['mumbai','delhi','bangalore','bengaluru','chennai','hyderabad','kolkata','pune','ahmedabad','jaipur','nagpur','lucknow','coimbatore','bhopal','visakhapatnam','indore','surat','kochi','chandigarh','vellore','amritsar','varanasi','agra','noida','gurugram','faridabad','ghaziabad','meerut','patna','bhubaneswar','thiruvananthapuram']);
+  for (const city of cities) {
+    if (text.toLowerCase().includes(city)) return city.charAt(0).toUpperCase() + city.slice(1);
+  }
+  return null;
+}
+
+// ─── FUN FACTS ──────────────────────────────────────────────
+const FUN_FACTS = [
+  "💡 Your heart beats ~100,000 times a day — more dedication than most gym-goers!",
+  "🧠 Your brain is 73% water. Staying hydrated literally makes you think better!",
+  "😴 You'll spend 1/3 of your life sleeping. The other 2/3 you'll Google symptoms at 2AM.",
+  "🦠 Your gut has more bacteria than stars in the Milky Way — working overtime so you don't have to!",
+  "🤧 A sneeze travels at 160 km/h — faster than most Indian trains, and equally disruptive!",
+  "❤️ India has the highest burden of cardiac disease in the world. Get your heart checked!",
+  "💉 Ayushman Bharat has helped 30+ crore Indians access free healthcare since 2018.",
+  "🏥 India has 7.5 lakh+ beds in government hospitals. Knowing where to go saves lives!",
+  "🧪 A blood test can detect diabetes 5 years before symptoms appear. Prevention is cheaper!",
+  "🌿 India's AYUSH system covers Ayurveda, Yoga, Naturopathy, Unani, Siddha & Homeopathy.",
+];
+
+let factIndex = 0;
+function startFunFacts() {
+  document.getElementById('funFactBar').textContent = FUN_FACTS[factIndex];
+  setInterval(() => {
+    factIndex = (factIndex+1) % FUN_FACTS.length;
+    document.getElementById('funFactBar').textContent = FUN_FACTS[factIndex];
+  }, 8000);
+}
+
+// ─── SCROLL ──────────────────────────────────────────────
+function toggleScrollBtn() {
+  const btn = document.getElementById('scrollTopBtn');
+  const panel = document.getElementById('resultsPanel');
+  if (panel.scrollTop > 300) btn.classList.add('show');
+  else btn.classList.remove('show');
+}
+
+// ─── DOWNLOAD ──────────────────────────────────────────────
+function downloadSummary() {
+  const data = state.currentData;
+  if (!data) return;
+  let content = `JeevanCare Health Summary
+Generated: ${new Date().toLocaleString('en-IN')}
+Empowering India with Intelligent Care
+---
+PATIENT DETAILS
+Name: ${state.name || 'Not provided'}
+Location: ${state.location || '—'}
+Age: ${state.age || '—'}
+Budget: ${state.budget ? fmt(state.budget) : 'Not specified'}
+Existing Conditions: ${state.comorbidities.join(', ') || 'None'}
+
+DIAGNOSIS
+Identified Condition: ${data.condition}
+Recommended Procedure: ${data.procedure.name}
+Urgency: ${data.urgency.toUpperCase()}
+AI Confidence: ${data.confidence.score}%
+
+ESTIMATED COSTS
+Minimum: ${data.cost.fmin}
+Maximum: ${data.cost.fmax}
+Hospital Stay: ${data.procedure.days} days
+
+TOP HOSPITALS
+${data.hospitals.map((h,i) => `${i+1}. ${h.name} (${h.city}) | ⭐ ${h.rating} | ${h.cost.fmin}–${h.cost.fmax} | 📞 ${h.phone}`).join('\n')}
+
+INSURANCE OPTIONS
+${data.insurance.map(i => `• ${i.name}: ₹${i.coverage.toLocaleString('en-IN')} cover | Premium: ${i.premium===0?'FREE':'₹'+i.premium.toLocaleString('en-IN')} | 📞 ${i.phone}`).join('\n')}
+
+DISCLAIMER
+This is a decision-support tool. Not a substitute for medical advice. Always consult a qualified doctor.
+`;
+  const blob = new Blob([content], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'JeevanCare_Health_Summary.txt';
+  a.click();
+}
+</script>
+</body>
+</html>
